@@ -1,0 +1,36 @@
+/**
+ * Write your model definitions here
+ */
+
+namespace org.ebpi.hackathon
+
+participant AanleverendePartij identified by kvknummer {
+  o String kvknummer
+  o String Adres
+  o String Email
+}
+
+participant Verwerker identified by ID {
+  o String ID
+  o String Email
+}
+
+participant OntvangendePartij identified by ID {
+  o String ID
+  o String Email
+  o String Naam
+}
+
+asset Aanlevering identified by AanleverKenmerk {
+  o String AanleverKenmerk
+  o String Hash
+  o Integer status
+  --> AanleverendePartij Aanleveraar
+  --> OntvangendePartij Ontvanger
+
+}
+
+transaction UpdateStatus {
+  o Integer newStatus
+  --> Aanlevering aangeleverdBericht
+}
