@@ -7,7 +7,7 @@ namespace org.ebpi.hackathon
 participant AanleverendePartij identified by kvknummer {
   o String kvknummer
   o String Adres
-  o String Email
+  o String Email optional
 }
 
 participant Verwerker identified by ID {
@@ -17,7 +17,7 @@ participant Verwerker identified by ID {
 
 participant OntvangendePartij identified by ID {
   o String ID
-  o String Email
+  o String Email optional
   o String Naam
 }
 
@@ -27,7 +27,6 @@ asset Aanlevering identified by AanleverKenmerk {
   o Integer status
   --> AanleverendePartij Aanleveraar
   --> OntvangendePartij Ontvanger
-
 }
 
 transaction UpdateStatus {
