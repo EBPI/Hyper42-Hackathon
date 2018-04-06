@@ -1,4 +1,4 @@
-package nl.ebpi.hyperpoort.backend.backend;
+package nl.ebpi.hyperpoort.backend;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
