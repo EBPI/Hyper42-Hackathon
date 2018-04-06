@@ -15,8 +15,9 @@ public class BackendControllerTest {
 
     private BackendController backendController;
     private Aanlevering aanlevering;
+
     @Before
-    public void init(){
+    public void init() {
         backendController = new BackendController();
         aanlevering = new Aanlevering();
         aanlevering.setString("Ook korte aanleveringen zijn belangrijk");
@@ -26,7 +27,8 @@ public class BackendControllerTest {
 
     @Test
     public void leveraan() throws IOException, URISyntaxException {
-Assert.assertNull( backendController.aanleveren(aanlevering));
+        String kenmkerk = backendController.aanleveren(aanlevering);
+        Assert.assertFalse(kenmkerk.isEmpty());
 
     }
 }
