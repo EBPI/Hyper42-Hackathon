@@ -1,0 +1,29 @@
+<html>
+<head>
+  <title>KvK Identity demo: Simple page (secure setup)</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://widget.mayersoftwaredevelopment.nl/kvk-identity-qr.js"></script>
+  <script src="/script"></script>
+ 
+  <script>
+    function start() {
+      var $widget = document.getElementsByClassName('kvk-identity-qr')[0];
+      $widget.onAgree = function(sessionKey) {
+        $.post('/getData', {sessionKey: sessionKey}, function(data) {
+          // console.log(data);
+          submit(data);
+        }, "text");
+      }; 
+      $widget.onReject = function() {
+        console.log('User rejected');
+      };
+      $widget.onError = function(error) {
+        console.log('error: ', error)
+      }
+    }
+  </script>
+</head>
+<body onload="start()">
+<div class="kvk-identity-qr" data-questionid="5a9fba89c5fde905a88843e0" data-label="Identify yourself"></div>
+</body>
+</html>
