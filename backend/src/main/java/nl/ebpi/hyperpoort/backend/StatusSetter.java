@@ -23,14 +23,9 @@ public class StatusSetter {
         updateStatus.setAanleveraar(aanleveraar);
         URI uri = new URI("asd");
 
-        RequestEntity<UpdateStatus> requestEntity = new RequestEntity<UpdateStatus>(HttpMethod.POST, uri);
+        RequestEntity<UpdateStatus> requestEntity = new RequestEntity<>(HttpMethod.POST, uri);
         ResponseEntity<Void> responseEntity = restTemplate.exchange(requestEntity, void.class);
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            return true;
-        }
-
-
-        return false;
+        return responseEntity.getStatusCode().is2xxSuccessful();
 
     }
 
