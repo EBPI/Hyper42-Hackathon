@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Status history - Hyperpoort web application</title>
+    <title>Status history - Hyperportal</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" type="text/css"
@@ -13,13 +13,13 @@
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Hyperpoort Portal</a>
+            <a class="navbar-brand" href="/">Hyperportal</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
                 <li><a href="/register">Register</a></li>
-                <li><a href="/post">Post message</a></li>
+                <li><a href="/submit">Submit message</a></li>
                 <li class="active"><a href="#">View status history</a></li>
             </ul>
         </div>
@@ -29,7 +29,7 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>Hyperpoort message portal - View status history</h1>
+        <h1>Hyperportal - View status history</h1>
         <h2>
             <span th:text=${statusMessage}></span>
         </h2>

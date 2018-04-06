@@ -22,11 +22,11 @@ public class PortalController {
         return "hyperpoort_webapp/register";
     }
 
-    @RequestMapping("/post")
+    @RequestMapping("/submit")
     public String postMessage(Map<String, Object> model) {
         String message = "Todo: maak formulier voor aanleveren (gebruik business card identiteit)";
-        model.put("postMessage", message);
-        return "hyperpoort_webapp/post";
+        model.put("submitMessage", message);
+        return "hyperpoort_webapp/submit";
     }
 
     @RequestMapping("/statusHistory")
