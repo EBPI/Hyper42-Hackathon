@@ -1,0 +1,11 @@
+/**
+ * New query file
+ */
+
+query selectAanleveringenOpKenmerk {
+  description: "Vraag alle aanleveringen op voor een aanleverende partij"
+  statement:
+    SELECT org.ebpi.hackathon.Aanlevering
+        WHERE ( AanleverKenmerk == _$aanleverkenmerk )
+}
+

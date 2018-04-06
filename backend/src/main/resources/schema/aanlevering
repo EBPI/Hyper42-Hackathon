@@ -1,3 +1,4 @@
 {
-  "string": "bericht"
+  "bericht": "string",
+  "temp": "string"
 }

@@ -1,4 +1,4 @@
 {
-  "string": "kenmerk",
-  "string": "fout"
+  "kenmerk": "string",
+  "fout": "string"
 }

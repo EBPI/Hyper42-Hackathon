@@ -5,6 +5,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
+/**
+ * The Class PollerService starts the polling of the hyperledger for the new aanleverkenmer.
+ */
 @Service
 public class PollerService {
 	@Autowired

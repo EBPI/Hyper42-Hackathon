@@ -16,12 +16,18 @@ public class StatusSetter {
     @Autowired
     RestTemplate restTemplate;
 
-    public boolean setStatus(String kenmerk, String newStatus, String aanleveraar) throws URISyntaxException {
+    public boolean setStatus(String kenmerk, String newStatus, String aanleveraar) {
         UpdateStatus updateStatus = new UpdateStatus();
         updateStatus.setKenmerk(kenmerk);
         updateStatus.setStatus(newStatus);
         updateStatus.setAanleveraar(aanleveraar);
-        URI uri = new URI("asd");
+        URI uri = null;
+        try {
+            uri = new URI("http://10.0.169.30:3000/api/UpdateStatus");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        }
 
         RequestEntity<UpdateStatus> requestEntity = new RequestEntity<>(HttpMethod.POST, uri);
         ResponseEntity<Void> responseEntity = restTemplate.exchange(requestEntity, void.class);
