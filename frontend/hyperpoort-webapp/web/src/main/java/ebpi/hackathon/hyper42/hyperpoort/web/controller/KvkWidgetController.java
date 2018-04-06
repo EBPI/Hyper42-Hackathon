@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -24,38 +25,39 @@ public class KvkWidgetController {
 
 	@GetMapping("/script")
 	public String javascript() {
-		return "kvk/js";
+		return "/kvk/js.js";
 	}
 
 	@GetMapping("/identify")
 	public String kvkWidget() {
-		return "kvk/kvkwidget";
+		return "/kvk/kvkwidget";
 	}
 
+	@ResponseBody
 	@PostMapping("/getData")
 	public String doeKvk(Map<String, Object> model, @RequestParam("sessionKey") String session) {
 		KvKBody kvKBody = new KvKBody();
 		kvKBody.sessionKey = session;
 
-		RequestEntity<KvKBody> request = new RequestEntity<KvKBody>(kvKBody, HttpMethod.POST, KVK_URI);
+		RequestEntity<KvKBody> request = new RequestEntity<>(kvKBody, HttpMethod.POST, KVK_URI);
 		ResponseEntity<String> response = restTemplate.exchange(request, String.class);
 
 		model.put("data", response.getBody());
 
-		return "kvk/answer";
+		return response.getBody();
 	}
 
-	@PostMapping("/hello")
-	public String hello(Map<String, Object> model, @RequestParam String data) {
+	@PostMapping("/handleregistration")
+	public String handleRegistration(Map<String, Object> model, @RequestParam String data) {
 		byte[] decode = Base64.getDecoder().decode(data);
 		String value = JsonUtil.findValue(new String(decode), "businessName");
+		//todo: Afhandelen registratie via blockchain (regelen businesscard)
 		model.put("name", value);
-		return "kvk/hello";
+		return "/hyperpoort_webapp/registration";
 	}
 
 	private static class KvKBody {
 		@Override
-		//todo: geen sessionkey hardcoded!
 		public String toString() {
 			return "KvKBody [sessionKey=" + sessionKey + ", secret=" + secret + "]";
 		}
