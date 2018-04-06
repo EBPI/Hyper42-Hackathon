@@ -28,11 +28,6 @@ public class KvkWidgetController {
 		return "/kvk/js.js";
 	}
 
-	@GetMapping("/identify")
-	public String kvkWidget() {
-		return "/kvk/kvkwidget";
-	}
-
 	@ResponseBody
 	@PostMapping("/getData")
 	public String doeKvk(Map<String, Object> model, @RequestParam("sessionKey") String session) {
