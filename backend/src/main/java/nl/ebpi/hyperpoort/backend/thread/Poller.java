@@ -13,16 +13,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * The Class Poller queries the hyperledger the the supplied aanleverkenmker.
+ * Note that the poller is NOT threadsafe.
+ */
 @Component
 @Scope("prototype")
 public class Poller implements Runnable {
+
+	/** The aanlever kenmerk. */
 	private String aanleverKenmerk;
 
+	/** The rest template. */
 	@Autowired
 	private RestTemplate restTemplate;
 
+	/** The aanlevering. */
 	private Aanlevering aanlevering;
 
+	/**
+	 * Sets the aanlever kenmerk.
+	 *
+	 * @param aanleverKenmerk the new aanlever kenmerk
+	 */
 	public void setAanleverKenmerk(String aanleverKenmerk) {
 		this.aanleverKenmerk = aanleverKenmerk;
 	}
