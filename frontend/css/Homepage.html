@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home - Hyperpoort message portal</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="C:\Users\sleferinkopreinink\OneDrive - EBPI BV\Backup\Documents\Blockchain\bootstrap-3.3.7\bootstrap-3.3.7\dist\css\bootstrap.min.css">
+
+          <style>
+          h4 {
+              display: block;
+              margin: 0px 950px 0px 390px;
+              font-family: "Futura";
+              text-align: justify;
+              
+              
+          }
+          .videohyperportal {
+              margin-left: 390px;
+              margin-top: 10px;
+          }
+          .intro-text {
+            margin: 0px 950px 0px 550px;
+              font-family: "Futura";
+              font-size: 13pt;
+          }
+
+          .buttons {
+            margin-left: 600px;
+          }
+          
+
+          </style>
+
+</head>
+
+
+<body>  
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Hyperpoort Portal</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="/register">Register</a></li>
+                <li><a href="/post">Submit</a></li>
+                <li><a href="/statusHistory">View status history</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Hyperpoort message portal - home</h1>
+        <h1>
+            <span th:text="'Welcome to the Hyperpoort message portal, here you can send messages for organisations, which will be validated and processed.'"></span>
+        </h1>
+    </div>
+
+</div>
+<!-- /.container -->
+
+<script type="text/javascript"
+        src="C:\Users\sleferinkopreinink\OneDrive - EBPI BV\Backup\Documents\Blockchain\bootstrap-3.3.7\bootstrap-3.3.7\dist\js\bootstrap.min.js"></script>
+
+    <h4 class="homepage-text"><div>Hyperport is a shared service center where message traffic is processed for the government. Governments can use Hyperport to automate business processes and reporting chain processes. 
+        With Hyperport you can automate important steps in the processing proces of big amounts of (tax) declarations, business reports and notifications.</div><br><br> First you can register at Hyperport to get a 'Business Card'. You can then download the 'Business Card', or if you already have one, and submit directly onto Hyperport.
+        </h4>
+        <div>        
+                <iframe width="590" class="videohyperportal" height="315" src="https://www.youtube.com/embed/silOU6qiMa4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <p class="intro-text">How does Hyperportal work?</p>
+        </div>
+
+        
+            <form method="get" class="buttons" action="C:\Users\sleferinkopreinink\OneDrive - EBPI BV\Backup\Documents\Blockchain\Register.html">
+                <button type="submit">Register</button>
+        <form method="get" action="C:\Users\sleferinkopreinink\OneDrive - EBPI BV\Backup\Documents\Blockchain\Register">
+                    <button type="submit">Submit</button>
+        </form>
+      
+                                
+
+      
+</body>
+</html> 

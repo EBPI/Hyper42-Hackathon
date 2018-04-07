@@ -18,7 +18,7 @@ rule AlleUsersReadOnNetwork {
     description: "Grant access to user resources"
     participant: "org.ebpi.hackathon.*"
     operation: READ
-    resource: "**"
+    resource: "org.hyperledger.composer.system.**"
     action: ALLOW
 }
 
@@ -29,10 +29,40 @@ rule MaakEnLeesEigenResources {
     description: "Alleen toegang tot eigen aanleveringen"
     participant(m): "org.ebpi.hackathon.AanleverendePartij"
     operation: CREATE, READ
+    resource(v): "org.ebpi.hackathon.Aanlevering#*"
+    condition: (v.AanleverendePartij.getIdentifier() == m.getIdentifier())
+    action: ALLOW
+}
+
+
+
+rule MaakAanlevering {
+    description: "Aanmaken van transactie  aanleverinen"
+    participant(m): "org.ebpi.hackathon.AanleverendePartij"
+    operation: CREATE, READ
     resource(v): "org.ebpi.hackathon.Aanlevering"
+  transaction(tx): "org.ebpi.hackathon.Aanleveren"
     condition: (v.Aanleveraar.getIdentifier() == m.getIdentifier())
     action: ALLOW
 }
+
+rule MaakAanleveringTransaction {
+    description: "Aanmaken van transactie  aanleverinen"
+    participant: "org.ebpi.hackathon.AanleverendePartij"
+    operation: CREATE, READ
+    resource: "org.ebpi.hackathon.Aanleveren"
+    action: ALLOW
+}
+
+rule HistorianTransaction {
+    description: "Aanmaken van history"
+    participant: "org.ebpi.hackathon.AanleverendePartij"
+    operation: CREATE, READ
+    resource: "org.hyperledger.composer.system.HistorianRecord"
+    action: ALLOW
+}
+
+
 
 rule LeesOntvangenResources{
     description: "Toegang tot naar jou vestruurde aanleveringen"

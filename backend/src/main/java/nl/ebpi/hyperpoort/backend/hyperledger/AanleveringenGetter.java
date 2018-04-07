@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class AanleveringenGetter {
 	private static final int WAIT_TIME_IN_MILLIES = 5000;
-	private static final String URL = "http://10.0.169.30:3000/api/queries/selectAanleveringenOpKenmerk";
 	/** The rest template. */
 	@Autowired
 	private RestTemplate restTemplate;
@@ -28,31 +27,41 @@ public class AanleveringenGetter {
 		int counter = 0;
 		while (counter < 60) {
 			counter++;
-			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL).queryParam("aanleverkenmerk", aanleverKenmerk);
-			HttpHeaders headers = new HttpHeaders();
-			headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-			HttpEntity<?> entity = new HttpEntity<>(headers);
-			ParameterizedTypeReference<List<Aanlevering>> aanleveringen = new ParameterizedTypeReference<List<Aanlevering>>() {
-			};
-			ResponseEntity<List<Aanlevering>> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, aanleveringen,
-					(Map<String, ?>) Collections.EMPTY_MAP);
+			ResponseEntity<List<Aanlevering>> responseEntity = callBlockchain(aanleverKenmerk);
 
 			if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
 				if (responseEntity.getBody() != null && !responseEntity.getBody().isEmpty()) {
 					List<Aanlevering> list = responseEntity.getBody();
 					return list.get(0);
 				} else {
-					try {
-						Thread.sleep(WAIT_TIME_IN_MILLIES);
-						System.out.println(LocalDateTime.now().toString() + " wachten op aanleverkenmerk");
-					} catch (InterruptedException e) {
-						// ignore
-					}
+					waitForNextCall();
 				}
 			} else {
 				System.out.println(LocalDateTime.now().toString() + " error bij ophalen aanlevering " + responseEntity.getStatusCode());
 			}
 		}
 		return null;
+	}
+
+	private void waitForNextCall() {
+		try {
+			System.out.println(LocalDateTime.now().toString() + " wachten op aanleverkenmerk");
+			Thread.sleep(WAIT_TIME_IN_MILLIES);
+		} catch (InterruptedException e) {
+			// ignore
+		}
+	}
+
+	private ResponseEntity<List<Aanlevering>> callBlockchain(String aanleverKenmerk) {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(UrlConstants.getAanleveringenGetterUrl()).queryParam("aanleverkenmerk",
+				aanleverKenmerk);
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+		ParameterizedTypeReference<List<Aanlevering>> aanleveringen = new ParameterizedTypeReference<List<Aanlevering>>() {
+		};
+		ResponseEntity<List<Aanlevering>> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, aanleveringen,
+				(Map<String, ?>) Collections.EMPTY_MAP);
+		return responseEntity;
 	}
 }

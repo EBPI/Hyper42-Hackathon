@@ -43,8 +43,8 @@ public class Poller implements Runnable {
 		Aanlevering aanlevering = aanleveringenGetter.retrieveAanlevering(aanleverKenmerk);
 		if (aanlevering != null) {
 			System.out.println(LocalDateTime.now().toString() + " aanleverkenmerk gevonden: zet status 200");
-			statusSetter.setStatus(aanleverKenmerk, "200", aanlevering.getAanleveraar());
-			finalStatusSetter.setFinalStatus(aanleverKenmerk, "500", aanlevering.getAanleveraar());
+			statusSetter.setStatus(aanleverKenmerk, "200");
+			finalStatusSetter.setFinalStatus(aanleverKenmerk, "500");
 		}
 	}
 }

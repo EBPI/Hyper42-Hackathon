@@ -1,15 +1,27 @@
 package ebpi.hackathon.hyper42.hyperpoort.web.controller;
 
+import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringSubmitter;
+import ebpi.hackathon.hyper42.hyperpoort.web.util.Hasher;
+import java.io.IOException;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PortalController {
+
+	@Autowired
+	private AanleveringSubmitter aanleveringSubmitter;
 
     /**
      * Homepage.
@@ -48,18 +60,6 @@ public class PortalController {
     }
 
     /**
-     * View status history page.
-     * @param model Model for dynamic form injection (Thymeleaf)
-     * @return Thymeleaf dynamic injected page for viewing status history
-     */
-    @RequestMapping("/statusHistory")
-    public String viewStatusHistory(Map<String, Object> model) {
-        String message = "Todo: haal statussen op (gebruik business card identiteit)";
-        model.put("statusMessage", message);
-        return "/hyperpoort_webapp/status";
-    }
-
-    /**
      * Download card.
      * @param id id for card
      * @return Thymeleaf dynamic injected page for viewing status history
@@ -72,4 +72,30 @@ public class PortalController {
         System.out.println("ID = " + id);
         return "todo";
     }
+
+	@PostMapping("/submitmessage")
+	public String handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam String ontvanger, RedirectAttributes redirectAttributes) {
+
+		try {
+			byte[] hash = Hasher.giveHash(file.getBytes());
+			aanleveringSubmitter.submit(hash, ontvanger);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "redirect:/";
+	}
+
+	/**
+	 * View status history page.
+	 * 
+	 * @param model Model for dynamic form injection (Thymeleaf)
+	 * @return Thymeleaf dynamic injected page for viewing status history
+	 */
+	@RequestMapping("/statusHistory")
+	public String viewStatusHistory(Map<String, Object> model) {
+		String message = "Todo: haal statussen op (gebruik business card identiteit)";
+		model.put("statusMessage", message);
+		return "hyperpoort_webapp/status";
+	}
 }

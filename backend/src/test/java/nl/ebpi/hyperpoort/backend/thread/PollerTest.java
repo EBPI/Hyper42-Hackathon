@@ -45,11 +45,10 @@ public class PollerTest {
 
 		Capture<String> statusCapture = Capture.newInstance(CaptureType.ALL);
 		Capture<String> aanleveraarCapture = Capture.newInstance();
-		EasyMock.expect(statusSetter.setStatus(EasyMock.capture(aanleverKenmerkCapture), EasyMock.capture(statusCapture), EasyMock.capture(aanleveraarCapture)))
+		EasyMock.expect(statusSetter.setStatus(EasyMock.capture(aanleverKenmerkCapture), EasyMock.capture(statusCapture)))
 				.andReturn(Boolean.TRUE);
 
-		EasyMock.expect(finalStatusSetter.setFinalStatus(EasyMock.capture(aanleverKenmerkCapture), EasyMock.capture(statusCapture),
-				EasyMock.capture(aanleveraarCapture))).andReturn(Boolean.TRUE);
+		EasyMock.expect(finalStatusSetter.setFinalStatus(EasyMock.capture(aanleverKenmerkCapture), EasyMock.capture(statusCapture))).andReturn(Boolean.TRUE);
 
 		mocksControl.replay();
 		fixture.run();
