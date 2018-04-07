@@ -8,8 +8,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <name>PoC Hyper42ledger - Web</name>
-    <description>Web configuration for Hyper42ledger PoC</description>
+    <name>Hackathon Hyperpoort webapp (Hyperportal) - web</name>
+    <description>Web application package for Hyperport</description>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>web</artifactId>

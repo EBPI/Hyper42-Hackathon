@@ -28,8 +28,14 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>Hyperportal - Register</h1>
-        <h2><span th:text=${name}></span></h2>
+        <p>
+        You have authenticated successfully, <span th:text=${name}></span>! To complete the registration, you need to download the "Business Card" below, you need this to submit your messages onto Hyperportal.
+        </p>
+        <div class="alert alert-danger" role="alert">
+            Please be aware that the "Business Card" is essential to submit your messages onto Hyperportal. Be sure to preserve this carefully.
+        </div>
+        <br>
+        <button type="button" class="btn">Download Business Card</button>
     </div>
 
 </div>
