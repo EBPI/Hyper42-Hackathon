@@ -110,12 +110,20 @@ public class PortalController {
 			data = Files.readAllBytes(path);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally {
+			deleteFile(file, fileName);
 		}
 		final HttpHeaders headers = new HttpHeaders();
 		headers.add("content-disposition", "attachment; filename=" + fileName);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 
 		return new ResponseEntity<>(data, headers, HttpStatus.CREATED);
+	}
+
+	private void deleteFile(File file, String fileName) {
+		if (!file.delete()) {
+			System.out.println("File with filename = " + fileName + " could not be deleted.");
+		}
 	}
 
 	/**
