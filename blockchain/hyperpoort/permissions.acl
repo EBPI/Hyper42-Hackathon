@@ -29,24 +29,38 @@ rule MaakEnLeesEigenResources {
     description: "Alleen toegang tot eigen aanleveringen"
     participant(m): "org.ebpi.hackathon.AanleverendePartij"
     operation: CREATE, READ
-    resource(v): "org.ebpi.hackathon.Aanlevering"
-    condition: (v.Aanleveraar.getIdentifier() == m.getIdentifier())
+    resource(v): "org.ebpi.hackathon.Aanlevering#*"
+    condition: (v.AanleverendePartij.getIdentifier() == m.getIdentifier())
     action: ALLOW
 }
 
 
-rule MaakAanleveringViaAanleveren {
+
+rule MaakAanlevering {
     description: "Aanmaken van transactie  aanleverinen"
     participant(m): "org.ebpi.hackathon.AanleverendePartij"
     operation: CREATE, READ
     resource(v): "org.ebpi.hackathon.Aanlevering"
-  transaction: "org.ebpi.hackathon.Aanleveren"
+  transaction(tx): "org.ebpi.hackathon.Aanleveren"
     condition: (v.Aanleveraar.getIdentifier() == m.getIdentifier())
     action: ALLOW
 }
 
+rule MaakAanleveringTransaction {
+    description: "Aanmaken van transactie  aanleverinen"
+    participant: "org.ebpi.hackathon.AanleverendePartij"
+    operation: CREATE, READ
+    resource: "org.ebpi.hackathon.Aanleveren"
+    action: ALLOW
+}
 
-
+rule HistorianTransaction {
+    description: "Aanmaken van history"
+    participant: "org.ebpi.hackathon.AanleverendePartij"
+    operation: CREATE, READ
+    resource: "org.hyperledger.composer.system.HistorianRecord"
+    action: ALLOW
+}
 
 
 
