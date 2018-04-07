@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.Map;
 
@@ -67,8 +69,14 @@ public class KvkWidgetController {
         String huisnummer = JsonUtil.findValue(new String(decode), "houseNumber");
 		String adres = straat + " " + huisnummer;
 
-        byte[] businesscard = ledgerService.makeCard(kvkNumber, adres);
-		model.put("name", name);
+/*        try {
+            ledgerService.makeCard(kvkNumber, adres);
+        } catch (URISyntaxException | IOException e) {
+            System.out.println(e);
+        }*/
+
+        model.put("name", name);
+        model.put("kvkNumber", kvkNumber);
 		return "/hyperpoort_webapp/registration";
 	}
 

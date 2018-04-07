@@ -35,7 +35,9 @@
             Please be aware that the "Business Card" is essential to submit your messages onto Hyperportal. Be sure to preserve this carefully.
         </div>
         <br>
-        <button type="button" class="btn">Download Business Card</button>
+        <form id="getCard" th:action="@{/downloadCard/__${kvkNumber}__}">
+            <button type="submit" value="download">Download business card</button>
+        </form>
     </div>
 
 </div>

@@ -1,7 +1,10 @@
 package ebpi.hackathon.hyper42.hyperpoort.web.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -29,7 +32,7 @@ public class PortalController {
     public String register(Map<String, Object> model) {
         String message = "Todo: verbind met kvk app, maak en installeer businesscard op blockchain, geef businesscard terug";
         model.put("registerMessage", message);
-        return "hyperpoort_webapp/register";
+        return "/hyperpoort_webapp/register";
     }
 
     /**
@@ -41,7 +44,7 @@ public class PortalController {
     public String postMessage(Map<String, Object> model) {
         String message = "Todo: maak formulier voor aanleveren (gebruik business card identiteit)";
         model.put("submitMessage", message);
-        return "hyperpoort_webapp/submit";
+        return "/hyperpoort_webapp/submit";
     }
 
     /**
@@ -53,6 +56,20 @@ public class PortalController {
     public String viewStatusHistory(Map<String, Object> model) {
         String message = "Todo: haal statussen op (gebruik business card identiteit)";
         model.put("statusMessage", message);
-        return "hyperpoort_webapp/status";
+        return "/hyperpoort_webapp/status";
+    }
+
+    /**
+     * Download card.
+     * @param id id for card
+     * @return Thymeleaf dynamic injected page for viewing status history
+     *
+     * todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
+     */
+    @ResponseBody
+    @RequestMapping("/downloadCard/{id}")
+    public String downloadCard(@PathVariable String id) {
+        System.out.println("ID = " + id);
+        return "todo";
     }
 }
