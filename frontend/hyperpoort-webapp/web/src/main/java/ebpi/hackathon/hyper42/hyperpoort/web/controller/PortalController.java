@@ -105,6 +105,7 @@ public class PortalController {
 	public String viewStatusHistory(Map<String, Object> model) {
 		String message = "Todo: haal statussen op (gebruik business card identiteit)";
 		model.put("statusMessage", message);
+
 		return "hyperpoort_webapp/status";
 	}
 }
