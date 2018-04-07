@@ -46,7 +46,7 @@ public class LedgerService {
 			responseEntity2 = restTemplate.exchange(request2, byte[].class);
 		} catch (HttpServerErrorException e) {
 			// If identity already exists, change the userId
-			identity.setUserID("User" + kvkNumber + UUID.randomUUID());
+			identity.setUserID("User" + kvkNumber + "-" + UUID.randomUUID());
 			request2 = new RequestEntity<>(identity, HttpMethod.POST, new URL("http://10.0.169.30:3000/api/system/identities/issue").toURI());
 			responseEntity2 = restTemplate.exchange(request2, byte[].class);
 		}
