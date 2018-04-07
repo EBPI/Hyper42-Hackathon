@@ -7,18 +7,20 @@ import java.io.IOException;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class PortalController {
 
 	@Autowired
-	private AanleveringStarter aanleveringStarter;
-	@Autowired
 	private AanleveringRegistrar aanleveringRegistrar;
+	@Autowired
+	private AanleveringStarter aanleveringStarter;
 
 	/**
 	 * Homepage.
@@ -43,7 +45,7 @@ public class PortalController {
 	public String register(Map<String, Object> model) {
 		String message = "Todo: verbind met kvk app, maak en installeer businesscard op blockchain, geef businesscard terug";
 		model.put("registerMessage", message);
-		return "hyperpoort_webapp/register";
+		return "/hyperpoort_webapp/register";
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class PortalController {
 	 * @return Thymeleaf dynamic injected page for submitting messages
 	 */
 	@RequestMapping("/submit")
-	public String postMessage(Map<String, Object> model) {
+	public String submitMessage(Map<String, Object> model) {
 		String message = "Send your message";
 		model.put("submitMessage", message);
 		return "hyperpoort_webapp/submit";
@@ -76,6 +78,21 @@ public class PortalController {
 		aanleveringRegistrar.submit(hash, receiver, kenmerk);
 		model.put("kenmerk", kenmerk);
 		return "hyperpoort_webapp/submitted";
+	}
+
+	/**
+	 * Download card.
+	 * 
+	 * @param id id for card
+	 * @return Thymeleaf dynamic injected page for viewing status history
+	 *
+	 *         todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
+	 */
+	@ResponseBody
+	@RequestMapping("/downloadCard/{id}")
+	public String downloadCard(@PathVariable String id) {
+		System.out.println("ID = " + id);
+		return "todo";
 	}
 
 	/**

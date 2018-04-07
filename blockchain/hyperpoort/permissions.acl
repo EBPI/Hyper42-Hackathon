@@ -18,7 +18,7 @@ rule AlleUsersReadOnNetwork {
     description: "Grant access to user resources"
     participant: "org.ebpi.hackathon.*"
     operation: READ
-    resource: "**"
+    resource: "org.hyperledger.composer.system.**"
     action: ALLOW
 }
 
