@@ -1,6 +1,7 @@
 package ebpi.hackathon.hyper42.hyperpoort.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ebpi.hackathon.hyper42.hyperpoort.web.service.LedgerService;
 import ebpi.hackathon.hyper42.hyperpoort.web.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,8 @@ public class KvkWidgetController {
 	private static final URI KVK_URI = URI.create("https://identity.mayersoftwaredevelopment.nl/api/attest");
 	@Autowired
 	private RestTemplate restTemplate;
+	@Autowired
+	private LedgerService ledgerService;
 
 	/**
 	 * Get javascript file that is needed for KvK ID app authentication.
@@ -34,20 +37,17 @@ public class KvkWidgetController {
 
 	/**
 	 * Get the data from the KvK ID app response.
-	 * @param model Model for dynamic form injection (Thymeleaf)
 	 * @param session Session from KvK ID app
 	 * @return String body from responseEntity, this should be the organisation that is registered on the app
 	 */
 	@ResponseBody
 	@PostMapping("/getData")
-	public String doeKvk(Map<String, Object> model, @RequestParam("sessionKey") String session) {
+	public String doeKvk(@RequestParam("sessionKey") String session) {
 		KvKBody kvKBody = new KvKBody();
 		kvKBody.sessionKey = session;
 
 		RequestEntity<KvKBody> request = new RequestEntity<>(kvKBody, HttpMethod.POST, KVK_URI);
 		ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-		model.put("data", response.getBody());
 
 		return response.getBody();
 	}
@@ -61,9 +61,14 @@ public class KvkWidgetController {
 	@PostMapping("/handleregistration")
 	public String handleRegistration(Map<String, Object> model, @RequestParam String data) {
 		byte[] decode = Base64.getDecoder().decode(data);
-		String value = JsonUtil.findValue(new String(decode), "businessName");
-		//todo: Afhandelen registratie via blockchain (regelen businesscard)
-		model.put("name", value);
+		String name = JsonUtil.findValue(new String(decode), "businessName");
+		String kvkNumber = JsonUtil.findValue(new String(decode), "kvknummer");
+        String straat = JsonUtil.findValue(new String(decode), "street");
+        String huisnummer = JsonUtil.findValue(new String(decode), "houseNumber");
+		String adres = straat + " " + huisnummer;
+
+        byte[] businesscard = ledgerService.makeCard(kvkNumber, adres);
+		model.put("name", name);
 		return "/hyperpoort_webapp/registration";
 	}
 
@@ -79,6 +84,6 @@ public class KvkWidgetController {
 		@JsonProperty
 		private String sessionKey;
 		@JsonProperty
-		private String secret = "6f57be0d538757bb7a3343a9aa4e62023ec4aa86";
+		private String secret = "e7eaf6cc30e75403c13d12bbd71f3c6ce2d4747c";
 	}
 }
