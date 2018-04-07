@@ -60,7 +60,9 @@ public class AanleveringenGetter {
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ParameterizedTypeReference<List<Aanlevering>> aanleveringen = new ParameterizedTypeReference<List<Aanlevering>>() {
 		};
-		ResponseEntity<List<Aanlevering>> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, aanleveringen,
+		String uriString = builder.toUriString();
+		System.out.println(uriString);
+		ResponseEntity<List<Aanlevering>> responseEntity = restTemplate.exchange(uriString, HttpMethod.GET, entity, aanleveringen,
 				(Map<String, ?>) Collections.EMPTY_MAP);
 		return responseEntity;
 	}

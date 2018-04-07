@@ -27,18 +27,12 @@
 
 	<div class="container">
 		<div class="starter-template">
-			<h1>Hyperportal - Submit message</h1>
+			<h1>Hyperportal - Your message has been submitted</h1>
 			<h2>
-				<span th:text=${submitMessage}></span>
+				<span th:text=${kenmerk}></span>
 			</h2>
-			<form method="POST" enctype="multipart/form-data" action="/submitmessage">
-				<div>
-					File to submit: <input type="file" name="file" /> 
-					Receiver: <input type="text" name="receiver" /> 
-					<input type="submit" value="submit" />
-				</div>
-			</form>
 		</div>
+
 	</div>
 	<!-- /.container -->
 

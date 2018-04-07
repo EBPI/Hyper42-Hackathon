@@ -60,7 +60,19 @@
 						<configuration>
 							<sourceDirectory>${basedir}/src/main/resources/schema/hyperpoort</sourceDirectory>
 							<sourceType>json</sourceType>
-							<targetPackage>nl.ebpi.hyperpoort.backend.model</targetPackage>
+							<targetPackage>ebpi.hackathon.hyper42.hyperpoort.web.backend.model</targetPackage>
+							<outputDirectory>${project.build.directory}/generated-sources/jsonschema2pojo</outputDirectory>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>hyperledger</id>
+						<configuration>
+							<sourceDirectory>${basedir}/src/main/resources/schema/hyperledger</sourceDirectory>
+							<sourceType>json</sourceType>
+							<targetPackage>ebpi.hackathon.hyper42.hyperpoort.web.hyperledger</targetPackage>
 							<outputDirectory>${project.build.directory}/generated-sources/jsonschema2pojo</outputDirectory>
 						</configuration>
 						<goals>
