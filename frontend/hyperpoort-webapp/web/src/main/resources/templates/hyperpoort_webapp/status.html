@@ -7,43 +7,166 @@
     <link rel="stylesheet" type="text/css"
           href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
 
+    <style>
+        #tabhome {
+            font-family: Trebuchet MS;
+            color: #002964;
+            font-size: 18px;
+            background-color: #fff;
+        }
+
+        #tabregister {
+            font-family: Trebuchet MS;
+            color: #002964;
+            font-size: 18px;
+            background-color: #fff;
+        }
+        #titel {
+            font-size: 18px;
+            font-weight: 400;
+            font-family: Trebuchet MS;
+            color: #002964;
+            background-color: #fff;
+
+        }
+        #tabsubmit {
+            font-family: Trebuchet MS;
+            color: #002964;
+            font-size: 18px;
+        }
+
+        a:hover
+        {border-bottom: 2px solid #000355
+        }
+
+        a:active {
+            border-bottom: 2px solid #000355
+        }
+
+
+        #tabstatus  {
+            font-family: Trebuchet MS;
+            color: #002964;
+            font-size: 18px;
+            background-color: #fff;
+            border-bottom: 2px solid #000355;
+        }
+
+
+        #divnavbar {
+            background-color: #fff;
+
+        }
+
+        #navbarinverse {
+            background-color: #fff;
+
+        }
+
+        .buttons {
+            margin-left: 3%0;
+            margin-top: 10px;
+            background-color: #fc3;
+            border: .0625rem solid #fc3;
+            border-radius: .3125rem;
+            color: #002964;
+            width: auto;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            overflow: hidden;
+            border-radius: .3125rem;
+            padding-bottom: 50px;
+
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 400;
+            height: 3.125rem;
+            line-height: 2.5em;
+
+            overflow: hidden;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            padding-top: .1875rem;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            text-overflow: ellipsis;
+
+            transition: background-color .15s ease-out,border-color .15s ease-out,color .15s ease-out;
+            white-space: nowrap;
+
+
+
+        }
+
+        h1 {
+            font-family: Trebuchet MS;
+            color: #002964;
+
+        }
+        h4 {
+            font-size: 18px;
+            font-weight: 400;
+            font-family: Trebuchet MS;
+            color: #515151;
+            background-color: #fff;
+        }
+
+        #uuid {
+            font-size: 18px;
+            font-weight: 400;
+            font-family: Trebuchet MS;
+            color: #515151;
+            background-color: #fff;
+
+        }
+
+        input[type=text] {
+            width: 42%;
+            padding: 10px 15px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+    </style>
+
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" id="navbarinverse">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Hyperportal</a>
+            <a class="navbar-brand" id="titel" href="/">Hyperpoort Portal</a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="/register">Register</a></li>
-                <li><a href="/submit">Submit message</a></li>
-                <li class="active"><a href="#">View status history</a></li>
+        <div class="collapse navbar-collapse" id="divnavbar">
+            <ul class="nav navbar-nav" id="navigate">
+                <li><a href="/" id="tabhome">Home</a></li>
+                <li><a href="/register" id="tabregister">Register</a></li>
+                <li><a href="/submit" id="tabsubmit">Submit</a></li>
+                <li class="active"><a href="/statusHistory" id="tabstatus">View status history</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
 <div class="container">
-
     <div class="starter-template">
-        <h1>Hyperportal - View status history</h1>
+        <h1>Hyperportal - view current state</h1>
+        <h4>You can view the status history of the files you submitted onto Hyperportal. <br> Please fill in the corresponding UUID you received after submitting the file:
+        </h4>
         <h2>
-            <span th:text=${statusMessage}></span>
+            <span th:text=${submitMessage}></span>
         </h2>
         <form method="POST" enctype="multipart/form-data" action="/submitmessage">
-            <div>
-                <input type="submit" value="Get Latest Status" />
+            <div id="uuid">
+                UUID: <input type="text" name="receiver" id="uuid2" />
+                <input type="submit" class="buttons" value="Send" />
             </div>
         </form>
-
     </div>
 
 </div>
 <!-- /.container -->
-
 <script type="text/javascript"
         src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 

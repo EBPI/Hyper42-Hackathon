@@ -17,24 +17,6 @@ h4 {
 
 }
 
-.omlijndblock{
-    display: block;
-    width: 33.3%;
-    line-height: 40px;
-    margin-left: 390px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #515151;
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 1.625rem;
-    font-family: Trebuchet MS, Arial, Verdana, sans-serif;
-    padding-left: 10px;
-    padding-right: 10px;
-
-}
-
 .videohyperportal {
     margin-left: 390px;
     margin-top: 10px;
