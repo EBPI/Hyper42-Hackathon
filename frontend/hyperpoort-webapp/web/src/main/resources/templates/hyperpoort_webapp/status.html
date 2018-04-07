@@ -33,6 +33,12 @@
         <h2>
             <span th:text=${statusMessage}></span>
         </h2>
+        <form method="POST" enctype="multipart/form-data" action="/submitmessage">
+            <div>
+                <input type="submit" value="Get Latest Status" />
+            </div>
+        </form>
+
     </div>
 
 </div>

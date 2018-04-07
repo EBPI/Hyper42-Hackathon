@@ -20,7 +20,7 @@ public class StatusSetter {
 		updateStatus.setNewStatus(newStatus);
 		URI uri = null;
 		try {
-			uri = new URI("http://10.0.169.30:3000/api/StatusUpdate");
+			uri = new URI(UrlConstants.getStatusUpdateUrl());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return false;
