@@ -1,8 +1,0 @@
-rule LeesEigenResources {
-    description: "Alleen toegang tot eigen aanleveringen"
-    participant(m): "org.ebpi.hackathon.AanleverendePartij"
-    operation: READ
-    resource(v): "org.ebpi.hackathon.Aanlevering"
-    condition: (v.owner.getIdentifier() == m.getIdentifier())
-    action: ALLOW
-}
