@@ -62,4 +62,34 @@ public class StatussenRetrieverTest {
 		Assert.assertEquals(Integer.valueOf(100), statussenList.get(0).getStatussen().get(0));
 	}
 
+	@Test
+	public void testGetStatussenZonderKenmerk() throws Exception {
+		Capture<String> uriCapture = Capture.newInstance();
+		Capture<HttpMethod> httpMethodCapture = Capture.newInstance();
+		Capture<RequestEntity<List<Aanlevering>>> requestEntityCapture = Capture.newInstance();
+		Capture<ParameterizedTypeReference<List<Aanlevering>>> responseType = Capture.newInstance();
+		Capture<List<String>> parameterCapture = Capture.newInstance();
+
+		Aanlevering aanlevering = new Aanlevering();
+		aanlevering.setAanleveraar("aanleveraar");
+		aanlevering.setAanleverKenmerk("Kenmerk");
+		aanlevering.setHash("hashie");
+		aanlevering.setOntvanger("ontv");
+		List<Integer> statussen = Collections.singletonList(100);
+		aanlevering.setStatus(statussen);
+		List<Aanlevering> aanleveringen = Collections.singletonList(aanlevering);
+
+		EasyMock.expect(restTemplate.exchange(EasyMock.capture(uriCapture), EasyMock.capture(httpMethodCapture),
+				EasyMock.capture(requestEntityCapture), EasyMock.capture(responseType), EasyMock.capture(parameterCapture)))
+				.andReturn(new ResponseEntity<List<Aanlevering>>(aanleveringen, HttpStatus.OK));
+
+		mocksControl.replay();
+		List<Status> statussenList = fixture.getStatussen(null);
+		mocksControl.verify();
+
+		Assert.assertEquals(1, statussenList.size());
+		Assert.assertEquals(1, statussenList.get(0).getStatussen().size());
+		Assert.assertEquals(Integer.valueOf(100), statussenList.get(0).getStatussen().get(0));
+	}
+
 }
