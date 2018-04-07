@@ -151,20 +151,12 @@
 
 <div class="container">
     <div class="starter-template">
-        <h1>Hyperportal - view current state</h1>
-        <h4>You can view the status history of the files you submitted onto Hyperportal. <br> Please fill in the corresponding UUID you received after submitting the file:
-        </h4>
-        <h2>
-            <span th:text=${submitMessage}></span>
-        </h2>
-        <form method="POST" enctype="multipart/form-data" action="/submitmessage">
-            <div id="uuid">
-                UUID: <input type="text" name="receiver" id="uuid2" />
-                <input type="submit" class="buttons" value="Send" />
-            </div>
-        </form>
-    </div>
-
+        <h1>Hyperportal - view state</h1>
+		<div th:if="${statussen != null}">
+			<h1>Result</h1>
+			<div th:each="status : ${statussen}" th:text="${status.String}">kenmerk</div>
+		</div>
+	</div>
 </div>
 <!-- /.container -->
 <script type="text/javascript"

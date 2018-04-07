@@ -44,6 +44,7 @@ public class Poller implements Runnable {
 		if (aanlevering != null) {
 			System.out.println(LocalDateTime.now().toString() + " aanleverkenmerk gevonden: zet status 200");
 			statusSetter.setStatus(aanleverKenmerk, "200");
+			System.out.println(LocalDateTime.now().toString() + " aanleverkenmerk gevonden: zet final status 500");
 			finalStatusSetter.setFinalStatus(aanleverKenmerk, "500");
 		}
 	}

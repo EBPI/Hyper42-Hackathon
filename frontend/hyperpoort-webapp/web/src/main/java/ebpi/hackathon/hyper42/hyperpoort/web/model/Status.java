@@ -6,15 +6,19 @@ import java.util.List;
 public class Status {
 
 	private String kenmerk;
-	private List<Integer> statussen;
+	private List<Integer> statusNummer;
 
-	public Status() {
-		// TODO Auto-generated constructor stub
+	public String getKenmerk() {
+		return kenmerk;
+	}
+
+	public List<Integer> getStatussen() {
+		return statusNummer;
 	}
 
 	private Status(Builder builder) {
 		this.kenmerk = builder.kenmerk;
-		this.statussen = builder.statussen;
+		this.statusNummer = builder.statussen;
 	}
 
 	public static Builder builder() {
