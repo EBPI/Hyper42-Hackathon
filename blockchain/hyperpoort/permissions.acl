@@ -1,0 +1,47 @@
+rule MaakEnLeesEigenResources {
+    description: "Alleen toegang tot eigen aanleveringen"
+    participant(m): "org.ebpi.hackathon.AanleverendePartij"
+    operation: CREATE, READ
+    resource(v): "org.ebpi.hackathon.Aanlevering"
+    condition: (v.Aanleveraar.getIdentifier() == m.getIdentifier())
+    action: ALLOW
+}
+
+rule LeesOntvangenResources{
+    description: "Toegang tot naar jou vestruurde aanleveringen"
+    participant(m): "org.ebpi.hackathon.OntvangendePartij"
+    operation: READ
+    resource(v): "org.ebpi.hackathon.Aanlevering"
+    condition: (v.Ontvanger.getIdentifier() == m.getIdentifier())
+    action: ALLOW
+}
+
+
+rule PollAlsVerwerker{
+    description: "Toegang tot naar jou vestruurde aanleveringen"
+    participant(m): "org.ebpi.hackathon.Verwerker"
+    operation: READ
+    resource(v): "org.ebpi.hackathon.Aanlevering"
+  condition:(ALWAYS)
+    action: ALLOW
+}
+
+rule StatusUpdate{
+	description: "Alleen verwende instanties mogen status zetten"
+  	participant(m): "org.ebpi.hackathon.Verwerker"
+  operation: UPDATE
+    resource(v): "org.ebpi.hackathon.Aanlevering"
+  transaction: 	"org.ebpi.hackathon.StatusUpdate"
+  condition: (ALWAYS)
+   action: ALLOW
+}
+
+rule ClosetransAction{
+	description: "Alleen de ontvanger mag de transitie sluiten"
+	participant(m): "org.ebpi.hackathon.OntvangendePartij"
+  operation: UPDATE
+	resource(v): "org.ebpi.hackathon.Aanlevering"
+  transaction: "org.ebpi.hackathon.SetFinalStatus"
+  	condition: (v.Ontvanger.getIdentifier() == m.getIdentifier())
+	action: ALLOW
+}
