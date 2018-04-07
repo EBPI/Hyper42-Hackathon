@@ -29,13 +29,19 @@ asset Aanlevering identified by AanleverKenmerk {
   --> OntvangendePartij Ontvanger
 }
 
-transaction UpdateStatus {
+transaction StatusUpdate {
   o Integer newStatus
-  --> Aanlevering aangeleverdBericht
+  o String Kenmerk
 }
+
 
 transaction Aanleveren {
   o String Hash
   o String AanleverKenmerk
   o String OntvangerId
+}
+
+transaction SetFinalStatus {
+  o Integer newStatus
+  o String Kenmerk
 }

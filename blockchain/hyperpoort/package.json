@@ -1,6 +1,6 @@
 {
   "name": "hyperpoort",
-  "version": "0.0.21",
+  "version": "0.0.29",
   "description": "hackathon implementatie voor een hyperledger digipoort",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/hackathon.bna",
