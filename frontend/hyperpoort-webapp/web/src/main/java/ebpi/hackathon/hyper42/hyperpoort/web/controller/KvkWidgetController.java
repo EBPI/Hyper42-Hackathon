@@ -62,8 +62,12 @@ public class KvkWidgetController {
 	public String handleRegistration(Map<String, Object> model, @RequestParam String data) {
 		byte[] decode = Base64.getDecoder().decode(data);
 		String name = JsonUtil.findValue(new String(decode), "businessName");
-		Long kvkNummer = Long.parseLong(JsonUtil.findValue(new String(decode), "kvknummer"));
-		byte[] businesscard = ledgerService.makeCard(kvkNummer);
+		String kvkNumber = JsonUtil.findValue(new String(decode), "kvknummer");
+        String straat = JsonUtil.findValue(new String(decode), "street");
+        String huisnummer = JsonUtil.findValue(new String(decode), "houseNumber");
+		String adres = straat + " " + huisnummer;
+
+        byte[] businesscard = ledgerService.makeCard(kvkNumber, adres);
 		model.put("name", name);
 		return "/hyperpoort_webapp/registration";
 	}

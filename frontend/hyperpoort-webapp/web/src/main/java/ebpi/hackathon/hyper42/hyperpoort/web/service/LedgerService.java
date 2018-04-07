@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LedgerService {
-	public byte[] makeCard(long kvkNumber) {
-		return "dummy".getBytes();
-	}
+	public byte[] makeCard(String kvkNumber, String adres) {
+        return "dummy".getBytes();
+    }
 }
