@@ -2,7 +2,14 @@ package ebpi.hackathon.hyper42.hyperpoort.web.controller;
 
 import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringRegistrar;
 import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringStarter;
+import ebpi.hackathon.hyper42.hyperpoort.web.backend.StatussenRetriever;
+import ebpi.hackathon.hyper42.hyperpoort.web.model.SimpleStatus;
+import ebpi.hackathon.hyper42.hyperpoort.web.model.Status;
 import ebpi.hackathon.hyper42.hyperpoort.web.util.Hasher;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +33,8 @@ public class PortalController {
 	private AanleveringRegistrar aanleveringRegistrar;
 	@Autowired
 	private AanleveringStarter aanleveringStarter;
+	@Autowired
+	private StatussenRetriever statussenRetriever;
 
 	/**
 	 * Homepage.
@@ -121,9 +130,16 @@ public class PortalController {
 	 */
 	@RequestMapping("/statusHistory")
 	public String viewStatusHistory(Map<String, Object> model) {
-		String message = "Todo: haal statussen op (gebruik business cards identiteit)";
-		model.put("statusMessage", message);
+		List<Status> statussen = statussenRetriever.getStatussen();
 
+		List<SimpleStatus> simpleStatussen = new ArrayList<>();
+		for (Status status : statussen) {
+			String kenmerk = status.getKenmerk();
+			for (Integer statusnr : status.getStatussen()) {
+				simpleStatussen.add(new SimpleStatus(kenmerk, statusnr));
+			}
+		}
+		model.put("statussen", simpleStatussen);
 		return "hyperpoort_webapp/status";
 	}
 }
