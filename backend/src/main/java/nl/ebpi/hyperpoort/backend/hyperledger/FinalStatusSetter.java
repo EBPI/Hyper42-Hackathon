@@ -20,7 +20,7 @@ public class FinalStatusSetter {
 		updateStatus.setNewStatus(newStatus);
 		URI uri = null;
 		try {
-			uri = new URI("http://10.0.169.30:3000/api/SetFinalStatus");
+			uri = new URI(UrlConstants.getSetFinalStatusUrl());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return false;

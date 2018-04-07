@@ -12,47 +12,51 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
-public class StatusSetterTest {
+public class FinalStatusSetterTest {
 	private final IMocksControl mocksControl = EasyMock.createControl();
 	private RestTemplate restTemplate;
-	private StatusSetter fixture;
+	private FinalStatusSetter fixture;
 
 	@Before
-	public void init() throws Exception {
-		fixture = new StatusSetter();
+	public void createFinalStatusSetter() throws Exception {
+		fixture = new FinalStatusSetter();
+
 		restTemplate = mocksControl.createMock(RestTemplate.class);
 		ReflectionTestUtils.setField(fixture, "restTemplate", restTemplate);
 	}
 
 	@Test
-	public void setStatusSucces() {
-		Capture<RequestEntity<StatusUpdate>> requestCapture = Capture.newInstance();
-
+	public void testSetFinalStatusOK() throws Exception {
+		Capture<RequestEntity<FinalStatusUpdate>> requestCapture = Capture.newInstance();
 		ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.OK);
 
 		EasyMock.expect(restTemplate.exchange(EasyMock.capture(requestCapture), EasyMock.anyObject(Class.class))).andReturn(response);
 
 		mocksControl.replay();
-		Assert.assertTrue(fixture.setStatus("Five", "5"));
+		boolean result = fixture.setFinalStatus("kenmerk", "500");
 		mocksControl.verify();
 
-		Assert.assertEquals("Five", requestCapture.getValue().getBody().getKenmerk());
-		Assert.assertEquals("5", requestCapture.getValue().getBody().getNewStatus());
+		Assert.assertTrue(result);
+		Assert.assertEquals("kenmerk", requestCapture.getValue().getBody().getKenmerk());
+		Assert.assertEquals("500", requestCapture.getValue().getBody().getNewStatus());
 
 	}
 
 	@Test
-	public void setStatusError() {
-		Capture<RequestEntity<StatusUpdate>> requestCapture = Capture.newInstance();
-
-		ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.FORBIDDEN);
+	public void testSetFinalStatusError() throws Exception {
+		Capture<RequestEntity<FinalStatusUpdate>> requestCapture = Capture.newInstance();
+		ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 		EasyMock.expect(restTemplate.exchange(EasyMock.capture(requestCapture), EasyMock.anyObject(Class.class))).andReturn(response);
 
 		mocksControl.replay();
-		Assert.assertFalse(fixture.setStatus("5", "5"));
+		boolean result = fixture.setFinalStatus("kenmerk", "500");
 		mocksControl.verify();
 
+		Assert.assertFalse(result);
+
+		Assert.assertEquals("kenmerk", requestCapture.getValue().getBody().getKenmerk());
+		Assert.assertEquals("500", requestCapture.getValue().getBody().getNewStatus());
 	}
 
 }
