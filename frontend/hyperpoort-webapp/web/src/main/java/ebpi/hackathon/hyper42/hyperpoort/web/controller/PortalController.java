@@ -1,6 +1,7 @@
 package ebpi.hackathon.hyper42.hyperpoort.web.controller;
 
-import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringSubmitter;
+import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringRegistrar;
+import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringStarter;
 import ebpi.hackathon.hyper42.hyperpoort.web.util.Hasher;
 import java.io.IOException;
 import java.util.Map;
@@ -10,13 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PortalController {
 
 	@Autowired
-	private AanleveringSubmitter aanleveringSubmitter;
+	private AanleveringStarter aanleveringStarter;
+	@Autowired
+	private AanleveringRegistrar aanleveringRegistrar;
 
 	/**
 	 * Homepage.
@@ -52,22 +54,28 @@ public class PortalController {
 	 */
 	@RequestMapping("/submit")
 	public String postMessage(Map<String, Object> model) {
-		String message = "Todo: maak formulier voor aanleveren (gebruik business card identiteit)";
+		String message = "Send your message";
 		model.put("submitMessage", message);
 		return "hyperpoort_webapp/submit";
 	}
 
+	/**
+	 * Handle the file upload for aanleveren.
+	 *
+	 * @param file the file
+	 * @param ontvanger the ontvanger
+	 * @param redirectAttributes the redirect attributes
+	 * @return the string
+	 * @throws IOException
+	 */
 	@PostMapping("/submitmessage")
-	public String handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam String ontvanger, RedirectAttributes redirectAttributes) {
+	public String handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam String receiver, Map<String, Object> model) throws IOException {
 
-		try {
-			byte[] hash = Hasher.giveHash(file.getBytes());
-			aanleveringSubmitter.submit(hash, ontvanger);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "redirect:/";
+		byte[] hash = Hasher.giveHash(file.getBytes());
+		String kenmerk = aanleveringStarter.submit(hash, receiver);
+		aanleveringRegistrar.submit(hash, receiver, kenmerk);
+		model.put("kenmerk", kenmerk);
+		return "hyperpoort_webapp/submitted";
 	}
 
 	/**
