@@ -38,9 +38,9 @@ rule MaakEnLeesEigenResources {
 rule MaakAanleveringViaAanleveren {
     description: "Aanmaken van transactie  aanleverinen"
     participant(m): "org.ebpi.hackathon.AanleverendePartij"
-    transaction: "org.ebpi.hackathon.SetFinalStatus"
     operation: CREATE, READ
     resource(v): "org.ebpi.hackathon.Aanlevering"
+  transaction: "org.ebpi.hackathon.Aanleveren"
     condition: (v.Aanleveraar.getIdentifier() == m.getIdentifier())
     action: ALLOW
 }
