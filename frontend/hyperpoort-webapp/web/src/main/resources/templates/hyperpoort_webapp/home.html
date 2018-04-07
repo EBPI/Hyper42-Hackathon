@@ -8,7 +8,6 @@
           href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
 
 
-
     <style>
         h4 {
             display: block;
@@ -22,16 +21,17 @@
             font-size: 18px;
             font-weight: 300;
             line-height: 1.625rem;
-            font-family: Trebuchet MS,Arial,Verdana,sans-serif;
+            font-family: Trebuchet MS, Arial, Verdana, sans-serif;
             padding-left: 10px;
             padding-right: 10px;
 
-
         }
+
         .videohyperportal {
             margin-left: 390px;
             margin-top: 10px;
         }
+
         .intro-text {
             margin: 0px 950px 0px 550px;
             font-size: 18px;
@@ -71,7 +71,7 @@
             text-decoration: none;
             text-overflow: ellipsis;
 
-            transition: background-color .15s ease-out,border-color .15s ease-out,color .15s ease-out;
+            transition: background-color .15s ease-out, border-color .15s ease-out, color .15s ease-out;
             white-space: nowrap;
         }
 
@@ -86,12 +86,14 @@
             color: #002964;
             background-color: #fff;
         }
+
         #tabhome {
             font-family: Trebuchet MS;
             color: #002964;
             font-size: 18px;
-            background-color: #fff;
+            background-color: #fc3;
             border-bottom: 2px solid #000355;
+            box-shadow: 0px 0px 40px rgba(0, 0, 0, .5);
         }
 
         #tabregister {
@@ -113,8 +115,8 @@
             font-size: 18px;
         }
 
-        li:hover
-        {border-bottom: 2px solid #000355
+        li:hover {
+            border-bottom: 2px solid #000355
         }
 
         #divnavbar {
@@ -126,14 +128,15 @@
             background-color: #fff;
 
         }
+
         #titel {
             font-size: 18px;
             font-weight: 400;
             font-family: Trebuchet MS;
             color: #002964;
             background-color: #fff;
-
         }
+
     </style>
 
 
@@ -151,7 +154,7 @@
             <ul class="nav navbar-nav" id="navigate">
                 <li class="active"><a href="#" id="tabhome">Home</a></li>
                 <li><a href="/register" id="tabregister">Register</a></li>
-                <li><a href="/submit" id="tabsubmit">Submit</a></li>
+                <li><a href="/submit" id="tabsubmit">Submit message</a></li>
                 <li><a href="/statusHistory" id="tabstatus">View status history</a></li>
             </ul>
         </div>
@@ -173,23 +176,28 @@
 <script type="text/javascript"
         src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<h4 class="homepage-text"><div>Hyperport is a shared service center where message traffic is processed for the government. Governments can use Hyperport to automate business processes and reporting chain processes.
-    With Hyperport you can automate important steps in the processing proces of big amounts of (tax) declarations, business reports and notifications.</div><br><br> First you can register at Hyperport to get a 'Business Card'. You can then download the 'Business Card', or if you already have one, and submit directly onto Hyperport.
+<h4 class="homepage-text">
+    <div>Hyperport is a shared service center where message traffic is processed for the government. Governments can use
+        Hyperport to automate business processes and reporting chain processes.
+        With Hyperport you can automate important steps in the processing proces of big amounts of (tax) declarations,
+        business reports and notifications.
+    </div>
+    <br><br> First you can register at Hyperport to get a 'Business Card'. You can then download the 'Business Card', or
+    if you already have one, and submit directly onto Hyperport.
 </h4>
 <div>
-    <iframe width="590" class="videohyperportal" height="315" src="https://www.youtube.com/embed/silOU6qiMa4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe width="590" class="videohyperportal" height="315" src="https://www.youtube.com/embed/silOU6qiMa4"
+            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <p class="intro-text">How does Hyperportal work?</p>
 </div>
 
 
-    <form method="get" action="/submit">
-        <button type="submit" class="buttons">Submit</button>
-        <form method="get" action="/register">
-            <button type="submit" class="buttons">Register</button>
-        </form>
+<form method="get" action="/submit">
+    <button type="submit" class="buttons">Submit</button>
+    <form method="get" action="/register">
+        <button type="submit" class="buttons">Register</button>
     </form>
-
-
+</form>
 
 
 </body>
