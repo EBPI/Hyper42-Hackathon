@@ -3,9 +3,15 @@
  */
 
 query selectAanleveringenOpKenmerk {
-  description: "Vraag alle aanleveringen op voor een aanleverende partij"
+  description: "Vraag de aanlevering op op basis van een aanleverkenmerk"
   statement:
     SELECT org.ebpi.hackathon.Aanlevering
         WHERE ( AanleverKenmerk == _$aanleverkenmerk )
 }
 
+query selectAanleveringenOpParticipant  {
+  description: "Vraag de aanleveringen en statuscodes op op basis van een participant"
+  statement:
+    SELECT org.ebpi.hackathon.Aanlevering
+      WHERE ( Aanleveraar.kvknummer == _$kvknummer)
+}
