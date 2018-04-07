@@ -109,14 +109,33 @@ public class PortalController {
 	 * @return Thymeleaf dynamic injected page for viewing status history
 	 */
 	@RequestMapping("/statusHistory")
-	public String viewStatusHistory(Map<String, Object> model) {
-		List<Status> statussen = statussenRetriever.getStatussen();
+	public String queryStatusHistory(Map<String, Object> model) {
+		model.put("submitMessage", "Search statussen");
+		return "hyperpoort_webapp/statusrequest";
+	}
+
+	/**
+	 * View status history page.
+	 * 
+	 * @param model Model for dynamic form injection (Thymeleaf)
+	 * @return Thymeleaf dynamic injected page for viewing status history
+	 */
+	@RequestMapping("/statusHistoryResult")
+	public String viewStatusHistory(@RequestParam String kenmerk, Map<String, Object> model) {
+		List<Status> statussen = statussenRetriever.getStatussen(kenmerk);
 
 		List<SimpleStatus> simpleStatussen = new ArrayList<>();
 		for (Status status : statussen) {
-			String kenmerk = status.getKenmerk();
-			for (Integer statusnr : status.getStatussen()) {
-				simpleStatussen.add(new SimpleStatus(kenmerk, statusnr));
+			String statusKenmerk = status.getKenmerk();
+			if (status.getStatussen().isEmpty()) {
+				SimpleStatus simpleStatus = new SimpleStatus(statusKenmerk, 0);
+				simpleStatussen.add(simpleStatus);
+			} else {
+				for (Integer statusnr : status.getStatussen()) {
+					SimpleStatus simpleStatus = new SimpleStatus(statusKenmerk, statusnr);
+					System.out.println(simpleStatus.getString());
+					simpleStatussen.add(simpleStatus);
+				}
 			}
 		}
 		model.put("statussen", simpleStatussen);

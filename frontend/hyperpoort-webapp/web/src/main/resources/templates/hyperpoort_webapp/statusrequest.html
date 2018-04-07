@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Submit message - Hyperportal</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">Hyperportal</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="/register">Register</a></li>
+	                <li><a href="/submit" id="tabsubmit">Submit</a></li>
+					<li class="active"><a href="/statusHistory">View status history</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="starter-template">
+			<h1>Hyperportal - Status History</h1>
+			<h2>
+				<span th:text=${submitMessage}></span>
+			</h2>
+			<form method="GET"  action="/statusHistoryResult">
+				<div>
+					Kenmerk: <input type="text" name="kenmerk" /> 
+					<input type="submit" value="submit" />
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- /.container -->
+
+	<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
