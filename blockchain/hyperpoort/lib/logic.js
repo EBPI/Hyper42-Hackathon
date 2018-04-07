@@ -1,22 +1,22 @@
 'use strict';
-/**
- * Write your transction processor functions here
- */
 
 /**
- * Sample transaction
- * @param {org.ebpi.hackathon.UpdateStatus} UpdateStatus
+ * StatusUpdate transaction
+ * @param {org.ebpi.hackathon.StatusUpdate} StatusUpdate
  * @transaction
  */
-function doUpdateStatus(UpdateStatus) {
-    var aangeleverdBericht = UpdateStatus.aangeleverdBericht
-    aangeleverdBericht.status = UpdateStatus.newStatus
-    var statusRegistry;
-    var myAanleverKenmerk = UpdateStatus.aangeleverdBericht.AanleverKenmerk;
+function doStatusUpdate(StatusUpdate) {
     return getAssetRegistry('org.ebpi.hackathon.Aanlevering')
-        .then(function (aanleveringRegistry) {
-            aanleveringRegistry.update(aangeleverdBericht)
-        });
+        .then(function (AanleveringAssetRegistry) {
+            return AanleveringAssetRegistry.get(StatusUpdate.Kenmerk);
+        })
+    .then(function(Aanlevering) {
+        Aanlevering.status = StatusUpdate.newStatus
+        return getAssetRegistry('org.ebpi.hackathon.Aanlevering')
+        .then(function (AanleveringAssetRegistry) {
+            return AanleveringAssetRegistry.update(Aanlevering);
+        })
+    })
 }
 
 /**
@@ -30,9 +30,6 @@ function doAanlevering(Aanleveren) {
     var newStatus = 100
     var newAanleverkenmerk = Aanleveren.AanleverKenmerk
     var newHash = Aanleveren.Hash
-    /*    return getParticipantRegistry('org.ebpi.hackathon.OntvangendePartij')
-        .then(function (OntvangendePartijRegistry){
-            var newOntvangendePartij = OntvangendePartijRegistry.get(Aanleveren.OntvangerId).then(function(value) { */
     var newID = Aanleveren.OntvangerId
     var factory = getFactory()
     var newAanlevering = factory.newResource('org.ebpi.hackathon', 'Aanlevering', newAanleverkenmerk)
@@ -45,4 +42,23 @@ function doAanlevering(Aanleveren) {
             return aanleveringRegistry.add(newAanlevering)
 
         })
+}
+
+/**
+ * set final status
+ * @param {org.ebpi.hackathon.SetFinalStatus} SetFinalStatus
+ * @transaction
+ */
+function doSetFinalStatus(FinalStatus) {
+    return getAssetRegistry('org.ebpi.hackathon.Aanlevering')
+        .then(function (AanleveringAssetRegistry) {
+            return AanleveringAssetRegistry.get(FinalStatus.Kenmerk);
+        })
+    .then(function(Aanlevering) {
+        Aanlevering.status = FinalStatus.newStatus
+        return getAssetRegistry('org.ebpi.hackathon.Aanlevering')
+        .then(function (AanleveringAssetRegistry) {
+            return AanleveringAssetRegistry.update(Aanlevering);
+        })
+    })
 }
