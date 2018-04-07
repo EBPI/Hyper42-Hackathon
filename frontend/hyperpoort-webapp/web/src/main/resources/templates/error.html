@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Errorpage - Hyperpoort message portal</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+
+
+    <style>
+
+        h4 {
+            display: block;
+            width: 33.3%;
+            line-height: 40px;
+            margin-left: 390px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #515151;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.625rem;
+            font-family: Trebuchet MS,Arial,Verdana,sans-serif;
+            padding-left: 10px;
+            padding-right: 10px;
+
+        }
+
+        #navigate {
+            color: #002964;
+        }
+
+        #inleiding {
+            font-size: 18px;
+            font-weight: 400;
+            font-family: Trebuchet MS;
+            color: #002964;
+            background-color: #fff;
+        }
+        #tabhome {
+            font-family: Trebuchet MS;
+            color: #002964;
+            font-size: 18px;
+            background-color: #fff;
+        }
+
+        #tabregister {
+            font-family: Trebuchet MS;
+            color: #002964;
+            font-size: 18px;
+            background-color: #fff;
+        }
+
+        #tabsubmit {
+            font-family: Trebuchet MS;
+            color: #002964;
+            font-size: 18px;
+        }
+
+        #tabstatus {
+            font-family: Trebuchet MS;
+            color: #002964;
+            font-size: 18px;
+        }
+
+        li:hover
+        {border-bottom: 2px solid #000355
+        }
+
+        #divnavbar {
+            background-color: #fff;
+
+        }
+
+        #navbarinverse {
+            background-color: #fff;
+
+        }
+        #titel {
+            font-size: 18px;
+            font-weight: 400;
+            font-family: Trebuchet MS;
+            color: #002964;
+            background-color: #fff;
+
+        }
+    </style>
+
+
+</head>
+
+
+<body>
+
+<nav class="navbar navbar-inverse" id="navbarinverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" id="titel" href="/">Hyperpoort Portal</a>
+        </div>
+        <div id="divnavbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav" id="navigate">
+                <li><a href="/" id="tabhome">Home</a></li>
+                <li><a href="/register" id="tabregister">Register</a></li>
+                <li><a href="/submit" id="tabsubmit">Submit</a></li>
+                <li><a href="/statusHistory" id="tabstatus">View status history</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="starter-template" id="inleiding">
+        <h1>Hyperpoort message portal - Error</h1>
+        <h1>
+            <span th:text="'Whoops. Something went terribly wrong.'"></span>
+        </h1>
+        <p>sorry</p>
+    </div>
+
+</div>
+<!-- /.container -->
+
+<script type="text/javascript"
+        src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
