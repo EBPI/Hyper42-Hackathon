@@ -11,9 +11,7 @@
     <style>
         h4 {
             display: block;
-            width: 33.3%;
             line-height: 40px;
-            margin-left: 390px;
             border: 1px solid black;
             border-radius: 5px;
             background-color: #fff;
@@ -27,22 +25,16 @@
 
         }
 
-        .videohyperportal {
-            margin-left: 390px;
-            margin-top: 10px;
-        }
-
         .intro-text {
-            margin: 0px 950px 0px 550px;
             font-size: 18px;
             font-weight: 400;
+            text-align: center;
             font-family: Trebuchet MS;
             color: #002964;
             background-color: #fff;
         }
 
         .buttons {
-            margin-left: 390px;
             margin-top: 10px;
             background-color: #fc3;
             border: .0625rem solid #fc3;
@@ -136,13 +128,8 @@
             color: #002964;
             background-color: #fff;
         }
-
     </style>
-
-
 </head>
-
-
 <body>
 
 <nav class="navbar navbar-inverse" id="navbarinverse">
@@ -170,34 +157,37 @@
         </h1>
     </div>
 
+    <script type="text/javascript"
+            src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <h4 class="homepage-text">
+        <div>Hyperport is a shared service center where message traffic is processed for the government. Governments can
+            use
+            Hyperport to automate business processes and reporting chain processes.
+            With Hyperport you can automate important steps in the processing proces of big amounts of (tax)
+            declarations,
+            business reports and notifications.
+        </div>
+        <br><br> First you can register at Hyperport to get a 'Business Card'. You can then download the 'Business
+        Card', or
+        if you already have one, and submit directly onto Hyperport.
+    </h4>
+    <p class="intro-text">
+        <iframe width="590" height="315" src="https://www.youtube.com/embed/silOU6qiMa4"
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <br>
+        How does Hyperportal work?
+    </p>
+
+    <form method="get" action="/submit">
+        <button type="submit" class="buttons">Submit</button>
+        <form method="get" action="/register">
+            <button type="submit" class="buttons">Register</button>
+        </form>
+    </form>
+
 </div>
 <!-- /.container -->
-
-<script type="text/javascript"
-        src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<h4 class="homepage-text">
-    <div>Hyperport is a shared service center where message traffic is processed for the government. Governments can use
-        Hyperport to automate business processes and reporting chain processes.
-        With Hyperport you can automate important steps in the processing proces of big amounts of (tax) declarations,
-        business reports and notifications.
-    </div>
-    <br><br> First you can register at Hyperport to get a 'Business Card'. You can then download the 'Business Card', or
-    if you already have one, and submit directly onto Hyperport.
-</h4>
-<div>
-    <iframe width="590" class="videohyperportal" height="315" src="https://www.youtube.com/embed/silOU6qiMa4"
-            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <p class="intro-text">How does Hyperportal work?</p>
-</div>
-
-
-<form method="get" action="/submit">
-    <button type="submit" class="buttons">Submit</button>
-    <form method="get" action="/register">
-        <button type="submit" class="buttons">Register</button>
-    </form>
-</form>
 
 
 </body>
