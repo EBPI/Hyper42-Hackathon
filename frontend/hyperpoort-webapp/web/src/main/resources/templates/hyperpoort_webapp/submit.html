@@ -1,45 +1,47 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Submit message - Hyperportal</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Submit message - Hyperportal</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <link rel="stylesheet" type="text/css"
-          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Hyperportal</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="/register">Register</a></li>
-                <li class="active"><a href="#">Submit message</a></li>
-                <li><a href="/statusHistory">View status history</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">Hyperportal</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="/register">Register</a></li>
+					<li class="active"><a href="#">Submit message</a></li>
+					<li><a href="/statusHistory">View status history</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
-<div class="container">
+	<div class="container">
+		<div class="starter-template">
+			<h1>Hyperportal - Submit message</h1>
+			<h2>
+				<span th:text=${submitMessage}></span>
+			</h2>
+			<form method="POST" enctype="multipart/form-data" action="/submitmessage">
+				<div>
+					File to submit: <input type="file" name="file" /> <input type="submit" value="Upload" />
+				</div>
+			</form>
+		</div>
 
-    <div class="starter-template">
-        <h1>Hyperportal - Submit message</h1>
-        <h2>
-            <span th:text=${submitMessage}></span>
-        </h2>
-    </div>
+	</div>
+	<!-- /.container -->
 
-</div>
-<!-- /.container -->
-
-<script type="text/javascript"
-        src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </body>
 </html>
