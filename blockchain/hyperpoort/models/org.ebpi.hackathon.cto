@@ -24,7 +24,7 @@ participant OntvangendePartij identified by ID {
 asset Aanlevering identified by AanleverKenmerk {
   o String AanleverKenmerk
   o String Hash
-  o Integer status 
+  o Integer [] status 
   --> AanleverendePartij Aanleveraar
   --> OntvangendePartij Ontvanger
 }

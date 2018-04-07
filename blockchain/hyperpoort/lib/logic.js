@@ -11,7 +11,7 @@ function doStatusUpdate(StatusUpdate) {
             return AanleveringAssetRegistry.get(StatusUpdate.Kenmerk);
         })
     .then(function(Aanlevering) {
-        Aanlevering.status = StatusUpdate.newStatus
+        Aanlevering.status.push(StatusUpdate.newStatus)
         return getAssetRegistry('org.ebpi.hackathon.Aanlevering')
         .then(function (AanleveringAssetRegistry) {
             return AanleveringAssetRegistry.update(Aanlevering);
@@ -34,7 +34,8 @@ function doAanlevering(Aanleveren) {
     var factory = getFactory()
     var newAanlevering = factory.newResource('org.ebpi.hackathon', 'Aanlevering', newAanleverkenmerk)
     newAanlevering.Hash = newHash
-    newAanlevering.status = newStatus
+    newAanlevering.status = []
+    newAanlevering.status.push(newStatus)
     newAanlevering.Aanleveraar = factory.newRelationship('org.ebpi.hackathon', 'AanleverendePartij', newKvkNummer)
     newAanlevering.Ontvanger = factory.newRelationship('org.ebpi.hackathon', 'OntvangendePartij', newID)
     return getAssetRegistry('org.ebpi.hackathon.Aanlevering')
@@ -55,7 +56,7 @@ function doSetFinalStatus(FinalStatus) {
             return AanleveringAssetRegistry.get(FinalStatus.Kenmerk);
         })
     .then(function(Aanlevering) {
-        Aanlevering.status = FinalStatus.newStatus
+        Aanlevering.status.push(FinalStatus.newStatus)
         return getAssetRegistry('org.ebpi.hackathon.Aanlevering')
         .then(function (AanleveringAssetRegistry) {
             return AanleveringAssetRegistry.update(Aanlevering);

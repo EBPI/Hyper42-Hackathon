@@ -1,7 +1,7 @@
  {
     "AanleverKenmerk": "string",
     "Hash": "string",
-    "status": 0,
+    "status": [0, 1],
     "Aanleveraar": "string",
     "Ontvanger": "string"
   }
