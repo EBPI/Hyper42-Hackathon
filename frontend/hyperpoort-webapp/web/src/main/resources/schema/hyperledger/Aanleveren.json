@@ -1,5 +1,6 @@
 {
   "Hash": "string",
   "AanleverKenmerk": "string",
-  "OntvangerId": "string"
+  "OntvangerId": "string",
+   "status": [0]
  }

@@ -1,0 +1,9 @@
+{
+    "AanleverKenmerk": "mykenmerk",
+    "Hash": "myhash",
+    "status": [
+      100
+    ],
+    "Aanleveraar": "resource:org.ebpi.hackathon.AanleverendePartij#90986176",
+    "Ontvanger": "resource:org.ebpi.hackathon.OntvangendePartij#1"
+  }
