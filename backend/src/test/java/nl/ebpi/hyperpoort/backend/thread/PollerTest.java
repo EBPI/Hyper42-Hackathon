@@ -3,6 +3,7 @@ package nl.ebpi.hyperpoort.backend.thread;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import nl.ebpi.hyperpoort.backend.FinalStatusSetter;
 import nl.ebpi.hyperpoort.backend.StatusSetter;
 import nl.ebpi.hyperpoort.backend.hyperledger.Aanlevering;
 import org.easymock.Capture;
@@ -24,6 +25,7 @@ public class PollerTest {
 	private RestTemplate restTemplate;
 	private Poller fixture;
 	private StatusSetter statusSetter;
+	private FinalStatusSetter finalStatusSetter;
 
 	@Before
 	public void createPoller() throws Exception {
@@ -34,6 +36,9 @@ public class PollerTest {
 
 		statusSetter = mocksControl.createMock(StatusSetter.class);
 		ReflectionTestUtils.setField(fixture, "statusSetter", statusSetter);
+
+		finalStatusSetter = mocksControl.createMock(FinalStatusSetter.class);
+		ReflectionTestUtils.setField(fixture, "finalStatusSetter", finalStatusSetter);
 	}
 
 	@Test
@@ -53,9 +58,12 @@ public class PollerTest {
 		Capture<String> aanleverKenmerkCapture = Capture.newInstance();
 		Capture<String> statusCapture = Capture.newInstance();
 		Capture<String> aanleveraarCapture = Capture.newInstance();
-		EasyMock.expect(statusSetter.setStatus(EasyMock.capture(aanleverKenmerkCapture = Capture.newInstance()),
-				EasyMock.capture(statusCapture = Capture.newInstance()),
+		EasyMock.expect(statusSetter.setStatus(EasyMock.capture(aanleverKenmerkCapture), EasyMock.capture(statusCapture), EasyMock.capture(aanleveraarCapture)))
+				.andReturn(Boolean.TRUE);
+
+		EasyMock.expect(finalStatusSetter.setFinalStatus(EasyMock.capture(aanleverKenmerkCapture), EasyMock.capture(statusCapture),
 				EasyMock.capture(aanleveraarCapture))).andReturn(Boolean.TRUE);
+
 		mocksControl.replay();
 		fixture.run();
 		mocksControl.verify();
@@ -87,6 +95,9 @@ public class PollerTest {
 		Capture<String> aanleveraarCapture = Capture.newInstance();
 		EasyMock.expect(statusSetter.setStatus(EasyMock.capture(aanleverKenmerkCapture = Capture.newInstance()),
 				EasyMock.capture(statusCapture = Capture.newInstance()),
+				EasyMock.capture(aanleveraarCapture))).andReturn(Boolean.TRUE);
+
+		EasyMock.expect(finalStatusSetter.setFinalStatus(EasyMock.capture(aanleverKenmerkCapture), EasyMock.capture(statusCapture),
 				EasyMock.capture(aanleveraarCapture))).andReturn(Boolean.TRUE);
 
 		mocksControl.replay();

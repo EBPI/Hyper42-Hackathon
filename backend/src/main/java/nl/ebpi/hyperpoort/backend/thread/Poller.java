@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import nl.ebpi.hyperpoort.backend.FinalStatusSetter;
 import nl.ebpi.hyperpoort.backend.StatusSetter;
 import nl.ebpi.hyperpoort.backend.hyperledger.Aanlevering;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,9 @@ public class Poller implements Runnable {
 	@Autowired
 	private StatusSetter statusSetter;
 
+	@Autowired
+	private FinalStatusSetter finalStatusSetter;
+
 	/**
 	 * Sets the aanlever kenmerk.
 	 *
@@ -69,6 +73,7 @@ public class Poller implements Runnable {
 					aanlevering = list.get(0);
 					System.out.println(LocalDateTime.now().toString() + " aanleverkenmerk gevonden: zet status 200");
 					statusSetter.setStatus(aanleverKenmerk, "200", aanlevering.getAanleveraar());
+					finalStatusSetter.setFinalStatus(aanleverKenmerk, "500", aanlevering.getAanleveraar());
 				} else {
 					try {
 						Thread.sleep(10000);
