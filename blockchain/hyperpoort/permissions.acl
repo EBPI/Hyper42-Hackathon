@@ -1,3 +1,22 @@
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.ebpi.hackathon.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.ebpi.hackathon.NetworkAdmin"
+    operation: ALL
+    resource: "org.ebpi.hackathon.**"
+    action: ALLOW
+}
+
+
+
+
 rule MaakEnLeesEigenResources {
     description: "Alleen toegang tot eigen aanleveringen"
     participant(m): "org.ebpi.hackathon.AanleverendePartij"
