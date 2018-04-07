@@ -23,11 +23,21 @@ public class KvkWidgetController {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	/**
+	 * Get javascript file that is needed for KvK ID app authentication.
+	 * @return Script file in String
+	 */
 	@GetMapping("/script")
 	public String javascript() {
 		return "/kvk/js.js";
 	}
 
+	/**
+	 * Get the data from the KvK ID app response.
+	 * @param model Model for dynamic form injection (Thymeleaf)
+	 * @param session Session from KvK ID app
+	 * @return String body from responseEntity, this should be the organisation that is registered on the app
+	 */
 	@ResponseBody
 	@PostMapping("/getData")
 	public String doeKvk(Map<String, Object> model, @RequestParam("sessionKey") String session) {
@@ -42,6 +52,12 @@ public class KvkWidgetController {
 		return response.getBody();
 	}
 
+	/**
+	 * When data is retrieved from the KvK app, construct a .card file from the ledger and display some organisation info to the user.
+	 * @param model Model for dynamic form injection (Thymeleaf)
+	 * @param data Base64 encoded
+	 * @return Thymeleaf dynamic injected page for registration finalizing
+	 */
 	@PostMapping("/handleregistration")
 	public String handleRegistration(Map<String, Object> model, @RequestParam String data) {
 		byte[] decode = Base64.getDecoder().decode(data);
@@ -51,6 +67,9 @@ public class KvkWidgetController {
 		return "/hyperpoort_webapp/registration";
 	}
 
+	/**
+	 * KvK body for ID app authentication.
+	 */
 	private static class KvKBody {
 		@Override
 		public String toString() {

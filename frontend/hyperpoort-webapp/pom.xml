@@ -7,8 +7,8 @@
     <groupId>ebpi.hackathon.hyper42</groupId>
     <artifactId>hyperpoort-webapp</artifactId>
 
-    <name>Hyperpoort Webapp - Hackathon</name>
-    <description>Digipoort Blockchain solution webapp, Hyper42.</description>
+    <name>Hackathon Hyperpoort webapp (Hyperportal)</name>
+    <description>root pom for Hyperpoort webapp (Hyperport)</description>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
