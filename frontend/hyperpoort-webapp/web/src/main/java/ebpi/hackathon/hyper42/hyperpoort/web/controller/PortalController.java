@@ -6,10 +6,6 @@ import ebpi.hackathon.hyper42.hyperpoort.web.backend.StatussenRetriever;
 import ebpi.hackathon.hyper42.hyperpoort.web.model.SimpleStatus;
 import ebpi.hackathon.hyper42.hyperpoort.web.model.Status;
 import ebpi.hackathon.hyper42.hyperpoort.web.util.Hasher;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +20,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -79,8 +77,6 @@ public class PortalController {
 	 * Handle the file upload for aanleveren.
 	 *
 	 * @param file the file
-	 * @param ontvanger the ontvanger
-	 * @param redirectAttributes the redirect attributes
 	 * @return the string
 	 * @throws IOException
 	 */
