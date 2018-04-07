@@ -55,7 +55,7 @@ public class KvkWidgetController {
 	}
 
 	/**
-	 * When data is retrieved from the KvK app, construct a .card file from the ledger and display some organisation info to the user.
+	 * When data is retrieved from the KvK app, construct a .cards file from the ledger and display some organisation info to the user.
 	 * @param model Model for dynamic form injection (Thymeleaf)
 	 * @param data Base64 encoded
 	 * @return Thymeleaf dynamic injected page for registration finalizing
@@ -69,11 +69,11 @@ public class KvkWidgetController {
         String huisnummer = JsonUtil.findValue(new String(decode), "houseNumber");
 		String adres = straat + " " + huisnummer;
 
-/*        try {
+        try {
             ledgerService.makeCard(kvkNumber, adres);
         } catch (URISyntaxException | IOException e) {
             System.out.println(e);
-        }*/
+        }
 
         model.put("name", name);
         model.put("kvkNumber", kvkNumber);

@@ -3,16 +3,21 @@ package ebpi.hackathon.hyper42.hyperpoort.web.controller;
 import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringRegistrar;
 import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringStarter;
 import ebpi.hackathon.hyper42.hyperpoort.web.util.Hasher;
-import java.io.IOException;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
 
 @Controller
 public class PortalController {
@@ -81,18 +86,31 @@ public class PortalController {
 	}
 
 	/**
-	 * Download card.
+	 * Download cards.
 	 * 
-	 * @param id id for card
+	 * @param id id for cards
 	 * @return Thymeleaf dynamic injected page for viewing status history
 	 *
-	 *         todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
+	 * todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
 	 */
 	@ResponseBody
 	@RequestMapping("/downloadCard/{id}")
-	public String downloadCard(@PathVariable String id) {
-		System.out.println("ID = " + id);
-		return "todo";
+	public ResponseEntity<byte[]> downloadCard(@PathVariable String id) {
+		String fileName = id + ".card";
+		System.out.println("Getting cards with filename = " + fileName);
+		File file = new File(fileName);
+		Path path = Paths.get(file.toURI());
+		byte[] data;
+		try {
+			data = Files.readAllBytes(path);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		final HttpHeaders headers = new HttpHeaders();
+		headers.add("content-disposition", "attachment; filename=" + fileName);
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+		return new ResponseEntity<>(data, headers, HttpStatus.CREATED);
 	}
 
 	/**
@@ -103,7 +121,7 @@ public class PortalController {
 	 */
 	@RequestMapping("/statusHistory")
 	public String viewStatusHistory(Map<String, Object> model) {
-		String message = "Todo: haal statussen op (gebruik business card identiteit)";
+		String message = "Todo: haal statussen op (gebruik business cards identiteit)";
 		model.put("statusMessage", message);
 
 		return "hyperpoort_webapp/status";
