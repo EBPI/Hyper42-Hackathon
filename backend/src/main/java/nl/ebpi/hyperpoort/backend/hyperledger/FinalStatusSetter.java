@@ -2,7 +2,6 @@ package nl.ebpi.hyperpoort.backend.hyperledger;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import nl.ebpi.hyperpoort.backend.hyperledger.FinalStatusUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -15,7 +14,7 @@ public class FinalStatusSetter {
 	@Autowired
 	RestTemplate restTemplate;
 
-	public boolean setFinalStatus(String kenmerk, String newStatus, String aanleveraar) {
+	public boolean setFinalStatus(String kenmerk, String newStatus) {
 		FinalStatusUpdate updateStatus = new FinalStatusUpdate();
 		updateStatus.setKenmerk(kenmerk);
 		updateStatus.setNewStatus(newStatus);
@@ -30,7 +29,6 @@ public class FinalStatusSetter {
 		RequestEntity<FinalStatusUpdate> requestEntity = new RequestEntity<>(updateStatus, HttpMethod.POST, uri);
 		ResponseEntity<FinalStatusUpdate> responseEntity = restTemplate.exchange(requestEntity, FinalStatusUpdate.class);
 		return responseEntity.getStatusCode().is2xxSuccessful();
-
 	}
 
 }

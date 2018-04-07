@@ -38,7 +38,7 @@ public class StatusSetterTest {
         EasyMock.expect(restTemplate.exchange(EasyMock.capture(requestCapture), EasyMock.anyObject(Class.class))).andReturn(response);
 
         mocksControl.replay();
-      Assert.assertTrue( fixture.setStatus("5","5","5"));
+      Assert.assertTrue( fixture.setStatus("5","5"));
         mocksControl.verify();
 
     }
@@ -53,7 +53,7 @@ public class StatusSetterTest {
         EasyMock.expect(restTemplate.exchange(EasyMock.capture(requestCapture), EasyMock.anyObject(Class.class))).andReturn(response);
 
         mocksControl.replay();
-        Assert.assertFalse(fixture.setStatus("5","5","5"));
+        Assert.assertFalse(fixture.setStatus("5","5"));
         mocksControl.verify();
 
     }

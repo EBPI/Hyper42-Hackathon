@@ -2,7 +2,6 @@ package nl.ebpi.hyperpoort.backend.hyperledger;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import nl.ebpi.hyperpoort.backend.hyperledger.StatusUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -15,7 +14,7 @@ public class StatusSetter {
 	@Autowired
 	RestTemplate restTemplate;
 
-	public boolean setStatus(String kenmerk, String newStatus, String aanleveraar) {
+	public boolean setStatus(String kenmerk, String newStatus) {
 		StatusUpdate updateStatus = new StatusUpdate();
 		updateStatus.setKenmerk(kenmerk);
 		updateStatus.setNewStatus(newStatus);
