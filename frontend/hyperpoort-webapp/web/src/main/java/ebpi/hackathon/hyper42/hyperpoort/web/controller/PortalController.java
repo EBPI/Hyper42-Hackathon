@@ -1,89 +1,98 @@
 package ebpi.hackathon.hyper42.hyperpoort.web.controller;
 
-import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringSubmitter;
+import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringRegistrar;
+import ebpi.hackathon.hyper42.hyperpoort.web.backend.AanleveringStarter;
 import ebpi.hackathon.hyper42.hyperpoort.web.util.Hasher;
 import java.io.IOException;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import java.util.Map;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PortalController {
 
 	@Autowired
-	private AanleveringSubmitter aanleveringSubmitter;
+	private AanleveringRegistrar aanleveringRegistrar;
+	@Autowired
+	private AanleveringStarter aanleveringStarter;
 
-    /**
-     * Homepage.
-     * @param model Model for dynamic form injection (Thymeleaf)
-     * @return Thymeleaf dynamic injected page for homepage
-     */
-    @RequestMapping("/")
-    public String home(Map<String, Object> model) {
-        String message = "This text is inserted from within the code with Thymeleaf!";
-        model.put("homeMessage", message);
-        return "/hyperpoort_webapp/home";
-    }
+	/**
+	 * Homepage.
+	 * 
+	 * @param model Model for dynamic form injection (Thymeleaf)
+	 * @return Thymeleaf dynamic injected page for homepage
+	 */
+	@RequestMapping("/")
+	public String home(Map<String, Object> model) {
+		String message = "This text is inserted from within the code with Thymeleaf!";
+		model.put("homeMessage", message);
+		return "/hyperpoort_webapp/home";
+	}
 
-    /**
-     * Registration page (authentication).
-     * @param model Model for dynamic form injection (Thymeleaf)
-     * @return Thymeleaf dynamic injected page for first register page (authentication)
-     */
-    @RequestMapping("/register")
-    public String register(Map<String, Object> model) {
-        String message = "Todo: verbind met kvk app, maak en installeer businesscard op blockchain, geef businesscard terug";
-        model.put("registerMessage", message);
-        return "/hyperpoort_webapp/register";
-    }
+	/**
+	 * Registration page (authentication).
+	 * 
+	 * @param model Model for dynamic form injection (Thymeleaf)
+	 * @return Thymeleaf dynamic injected page for first register page (authentication)
+	 */
+	@RequestMapping("/register")
+	public String register(Map<String, Object> model) {
+		String message = "Todo: verbind met kvk app, maak en installeer businesscard op blockchain, geef businesscard terug";
+		model.put("registerMessage", message);
+		return "/hyperpoort_webapp/register";
+	}
 
-    /**
-     * Submitting messages page.
-     * @param model Model for dynamic form injection (Thymeleaf)
-     * @return Thymeleaf dynamic injected page for submitting messages
-     */
-    @RequestMapping("/submit")
-    public String postMessage(Map<String, Object> model) {
-        String message = "Todo: maak formulier voor aanleveren (gebruik business card identiteit)";
-        model.put("submitMessage", message);
-        return "/hyperpoort_webapp/submit";
-    }
+	/**
+	 * Submitting messages page.
+	 * 
+	 * @param model Model for dynamic form injection (Thymeleaf)
+	 * @return Thymeleaf dynamic injected page for submitting messages
+	 */
+	@RequestMapping("/submit")
+	public String submitMessage(Map<String, Object> model) {
+		String message = "Send your message";
+		model.put("submitMessage", message);
+		return "hyperpoort_webapp/submit";
+	}
 
-    /**
-     * Download card.
-     * @param id id for card
-     * @return Thymeleaf dynamic injected page for viewing status history
-     *
-     * todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
-     */
-    @ResponseBody
-    @RequestMapping("/downloadCard/{id}")
-    public String downloadCard(@PathVariable String id) {
-        System.out.println("ID = " + id);
-        return "todo";
-    }
-
+	/**
+	 * Handle the file upload for aanleveren.
+	 *
+	 * @param file the file
+	 * @param ontvanger the ontvanger
+	 * @param redirectAttributes the redirect attributes
+	 * @return the string
+	 * @throws IOException
+	 */
 	@PostMapping("/submitmessage")
-	public String handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam String ontvanger, RedirectAttributes redirectAttributes) {
+	public String handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam String receiver, Map<String, Object> model) throws IOException {
 
-		try {
-			byte[] hash = Hasher.giveHash(file.getBytes());
-			aanleveringSubmitter.submit(hash, ontvanger);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "redirect:/";
+		byte[] hash = Hasher.giveHash(file.getBytes());
+		String kenmerk = aanleveringStarter.submit(hash, receiver);
+		aanleveringRegistrar.submit(hash, receiver, kenmerk);
+		model.put("kenmerk", kenmerk);
+		return "hyperpoort_webapp/submitted";
+	}
+
+	/**
+	 * Download card.
+	 * 
+	 * @param id id for card
+	 * @return Thymeleaf dynamic injected page for viewing status history
+	 *
+	 *         todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
+	 */
+	@ResponseBody
+	@RequestMapping("/downloadCard/{id}")
+	public String downloadCard(@PathVariable String id) {
+		System.out.println("ID = " + id);
+		return "todo";
 	}
 
 	/**
