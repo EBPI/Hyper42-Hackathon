@@ -1,6 +1,6 @@
 rule NetworkAdminUser {
     description: "Grant business network administrators full access to user resources"
-    participant: "org.ebpi.hackathon.NetworkAdmin"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
     operation: ALL
     resource: "**"
     action: ALLOW
@@ -8,9 +8,17 @@ rule NetworkAdminUser {
 
 rule NetworkAdminSystem {
     description: "Grant business network administrators full access to system resources"
-    participant: "org.ebpi.hackathon.NetworkAdmin"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
     operation: ALL
     resource: "org.ebpi.hackathon.**"
+    action: ALLOW
+}
+
+rule AlleUsersReadOnNetwork {
+    description: "Grant access to user resources"
+    participant: "org.ebpi.hackathon.*"
+    operation: READ
+    resource: "**"
     action: ALLOW
 }
 
