@@ -1,4 +1,4 @@
-package nl.ebpi.hyperpoort.backend;
+package nl.ebpi.hyperpoort.backend.hyperledger;
 
 import java.net.URI;
 import java.net.URISyntaxException;

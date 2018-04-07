@@ -1,6 +1,7 @@
-package nl.ebpi.hyperpoort.backend;
+package nl.ebpi.hyperpoort.backend.hyperledger;
 
 import nl.ebpi.hyperpoort.backend.hyperledger.Aanlevering;
+import nl.ebpi.hyperpoort.backend.hyperledger.StatusSetter;
 import nl.ebpi.hyperpoort.backend.thread.Poller;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
