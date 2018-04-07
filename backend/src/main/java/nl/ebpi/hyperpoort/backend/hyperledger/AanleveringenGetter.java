@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class AanleveringenGetter {
 	private static final int WAIT_TIME_IN_MILLIES = 5000;
-	private static final String URL = "http://10.0.169.30:3000/api/queries/selectAanleveringenOpKenmerk";
 	/** The rest template. */
 	@Autowired
 	private RestTemplate restTemplate;
@@ -46,7 +45,7 @@ public class AanleveringenGetter {
 
 	private void waitForNextCall() {
 		try {
-			System.out.println(LocalDateTime.now().toString() + " wac hten op aanleverkenmerk");
+			System.out.println(LocalDateTime.now().toString() + " wachten op aanleverkenmerk");
 			Thread.sleep(WAIT_TIME_IN_MILLIES);
 		} catch (InterruptedException e) {
 			// ignore
@@ -54,7 +53,8 @@ public class AanleveringenGetter {
 	}
 
 	private ResponseEntity<List<Aanlevering>> callBlockchain(String aanleverKenmerk) {
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL).queryParam("aanleverkenmerk", aanleverKenmerk);
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(UrlConstants.getAanleveringenGetterUrl()).queryParam("aanleverkenmerk",
+				aanleverKenmerk);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
