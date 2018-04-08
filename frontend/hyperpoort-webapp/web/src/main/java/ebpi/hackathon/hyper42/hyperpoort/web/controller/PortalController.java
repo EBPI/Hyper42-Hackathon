@@ -6,15 +6,6 @@ import ebpi.hackathon.hyper42.hyperpoort.web.backend.StatussenRetriever;
 import ebpi.hackathon.hyper42.hyperpoort.web.model.SimpleStatus;
 import ebpi.hackathon.hyper42.hyperpoort.web.model.Status;
 import ebpi.hackathon.hyper42.hyperpoort.web.util.Hasher;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,6 +14,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class PortalController {
@@ -96,7 +99,7 @@ public class PortalController {
 	 * @param id id for cards
 	 * @return Thymeleaf dynamic injected page for viewing status history
 	 *
-	 * todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
+	 *         todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
 	 */
 	@ResponseBody
 	@RequestMapping("/downloadCard/{id}")
@@ -134,7 +137,7 @@ public class PortalController {
 	 */
 	@RequestMapping("/statusHistory")
 	public String queryStatusHistory(Map<String, Object> model) {
-		model.put("submitMessage", "Search statussen");
+		model.put("submitMessage", "Search");
 		return "hyperpoort_webapp/statusrequest";
 	}
 

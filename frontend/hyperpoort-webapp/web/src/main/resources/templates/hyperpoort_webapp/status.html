@@ -154,7 +154,6 @@
     <div class="starter-template">
         <h1>Hyperportal - Status History</h1>
 		<div th:if="${statussen != null}">
-			<h1>Statussen</h1>
 			<div th:each="status : ${statussen}" th:text="${status.String}">kenmerk</div>
 		</div>
 	</div>
