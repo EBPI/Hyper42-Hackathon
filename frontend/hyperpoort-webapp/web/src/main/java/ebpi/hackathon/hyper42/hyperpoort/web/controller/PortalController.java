@@ -96,7 +96,7 @@ public class PortalController {
 	 * @param id id for cards
 	 * @return Thymeleaf dynamic injected page for viewing status history
 	 *
-	 * todo: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
+	 * Let op: Dit is uiteraard geen nette oplossing. Dit moet secuurder, geen pathvariable e.d.
 	 */
 	@ResponseBody
 	@RequestMapping("/downloadCard/{id}")
