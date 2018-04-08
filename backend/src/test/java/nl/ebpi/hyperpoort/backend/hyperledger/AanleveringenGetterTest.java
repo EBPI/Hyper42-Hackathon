@@ -89,4 +89,39 @@ public class AanleveringenGetterTest {
 		Assert.assertNotNull(parameterizedTypeReferenceCapture.getValues().get(0));
 		Assert.assertNotNull(parameterizedTypeReferenceCapture.getValues().get(1));
 	}
+
+	@Test
+	public void testFindInSecondTryWithError() throws Exception {
+		Aanlevering aanlevering = new Aanlevering();
+		aanlevering.setAanleveraar("aanleveraar");
+		ResponseEntity<List<Aanlevering>> responseError = new ResponseEntity<>(Collections.singletonList(aanlevering), HttpStatus.BAD_REQUEST);
+		ResponseEntity<List<Aanlevering>> response = new ResponseEntity<>(Collections.singletonList(aanlevering), HttpStatus.OK);
+
+		Capture<String> urlCapture = Capture.newInstance(CaptureType.ALL);
+		Capture<HttpMethod> httpMethodeCapture = Capture.newInstance(CaptureType.ALL);
+		Capture<HttpEntity<?>> entityCapture = Capture.newInstance(CaptureType.ALL);
+		Capture<ParameterizedTypeReference<List<Aanlevering>>> parameterizedTypeReferenceCapture = Capture.newInstance(CaptureType.ALL);
+		EasyMock.expect(restTemplate.exchange(EasyMock.capture(urlCapture), EasyMock.capture(httpMethodeCapture), EasyMock.capture(entityCapture),
+				EasyMock.capture(parameterizedTypeReferenceCapture), EasyMock.anyObject(Map.class))).andReturn(responseError);
+		EasyMock.expect(restTemplate.exchange(EasyMock.capture(urlCapture), EasyMock.capture(httpMethodeCapture), EasyMock.capture(entityCapture),
+				EasyMock.capture(parameterizedTypeReferenceCapture), EasyMock.anyObject(Map.class))).andReturn(response);
+
+		mocksControl.replay();
+		Aanlevering retrieveAanlevering = fixture.retrieveAanlevering("kenmerk");
+		mocksControl.verify();
+
+		Assert.assertEquals(aanlevering, retrieveAanlevering);
+		Assert.assertEquals(2, urlCapture.getValues().size());
+		Assert.assertTrue(urlCapture.getValues().get(0).endsWith("/api/queries/selectAanleveringenOpKenmerk?aanleverkenmerk=kenmerk"));
+		Assert.assertTrue(urlCapture.getValues().get(1).endsWith("/api/queries/selectAanleveringenOpKenmerk?aanleverkenmerk=kenmerk"));
+		Assert.assertEquals(2, httpMethodeCapture.getValues().size());
+		Assert.assertEquals(HttpMethod.GET, httpMethodeCapture.getValues().get(0));
+		Assert.assertEquals(HttpMethod.GET, httpMethodeCapture.getValues().get(1));
+		Assert.assertEquals(2, entityCapture.getValues().size());
+		Assert.assertNotNull(entityCapture.getValues().get(0));
+		Assert.assertNotNull(entityCapture.getValues().get(1));
+		Assert.assertEquals(2, parameterizedTypeReferenceCapture.getValues().size());
+		Assert.assertNotNull(parameterizedTypeReferenceCapture.getValues().get(0));
+		Assert.assertNotNull(parameterizedTypeReferenceCapture.getValues().get(1));
+	}
 }
