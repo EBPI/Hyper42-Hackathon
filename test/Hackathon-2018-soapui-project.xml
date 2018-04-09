@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="a65f0da5-3534-44de-9ef7-4db22931bf1c" activeEnvironment="Default" name="Hackathon 2018" resourceRoot="" soapui-version="5.1.1" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:testSuite id="ab22de42-6779-461d-bf24-123a318e472f" name="AanleverendePartij">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="0462f67d-e27e-4540-b543-a1ab26fc945b" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Ophalen alle AanleverendePartijen" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="Ophalen AanleverendePartij" id="cf7c79fe-c9d0-49bf-befe-25d83b2514f2">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="04a18fd0-177d-4893-ad1a-2b4de0c47609" name="Ophalen AanleverendePartij" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/aanleverendepartij</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:testCase id="0562a00f-5955-4fa3-bee2-96128b18f7e7" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Opvoeren aanleverpartij" searchProperties="true">
+      <con:description>Het opvoeren en controleren van aanleverpartijen</con:description>
+      <con:settings/>
+      <con:testStep type="datagen" name="DataGen" id="c891bcad-ee16-4eaf-bef4-d1b335eb7e64">
+        <con:settings/>
+        <con:config xsi:type="con:DataGeneratorStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:property type="Number">
+            <con:configuration>
+              <start>10000000</start>
+              <end>99999999</end>
+              <step/>
+              <pattern/>
+              <random>true</random>
+              <persist>false</persist>
+            </con:configuration>
+            <con:name>KVK</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+          <con:property type="Number">
+            <con:configuration>
+              <start>1000</start>
+              <end>9999</end>
+              <step/>
+              <pattern/>
+              <random>true</random>
+              <persist>false</persist>
+            </con:configuration>
+            <con:name>Nummer</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Opvoeren" id="12f8a5bf-6a6a-4dd5-b549-5459027b2d4a">
+        <con:settings/>
+        <con:config method="POST" xsi:type="con:HttpRequest" id="a467793d-d4db-4535-b653-ebfd97243144" name="Opvoeren" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/aanleverendepartij</con:endpoint>
+          <con:request>{
+   "kvknummer": "${DataGen#KVK}",
+   "Adres": "Kalver${DataGen#Nummer}straat",
+   "Email": "info${DataGen#Nummer}@kalver.nl"
+}</con:request>
+          <con:assertion type="JsonPath Match" id="1147321f-e306-403a-95b9-aed1fe830973" name="Match content of [kvknummer]">
+            <con:configuration>
+              <path>$.kvknummer</path>
+              <content>${DataGen#KVK}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="8de61182-f233-44f5-9758-4774cc73c656" name="Match content of [Adres]">
+            <con:configuration>
+              <path>$.Adres</path>
+              <content>Kalver${DataGen#Nummer}straat</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="831906db-a695-4759-9541-5a6293930367" name="Match content of [Email]">
+            <con:configuration>
+              <path>$.Email</path>
+              <content>info${DataGen#Nummer}@kalver.nl</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="delay" name="Wacht op verwerking" id="53e731ad-db45-4f17-99c9-722fdbce234a">
+        <con:settings/>
+        <con:config>
+          <delay>${#Project#verwerkingsDelay}</delay>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Ophalen AanleverendePartij" id="23a68abd-cbdf-49cf-bb12-fbf74c9ef790">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="04a18fd0-177d-4893-ad1a-2b4de0c47609" name="Ophalen AanleverendePartij" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/aanleverendepartij</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="964f02ad-d5bb-46d6-814a-65767e0f7334" name="Match content of [kvknummer]">
+            <con:configuration>
+              <path>$[3].kvknummer</path>
+              <content>${DataGen#KVK}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="f1b46a68-d0ff-4f97-a526-3e46f6f8f140" name="Match content of [Adres]">
+            <con:configuration>
+              <path>$[3].Adres</path>
+              <content>Kalver${DataGen#Nummer}straat</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="19e18879-d538-4f36-a269-85c345710707" name="Match content of [Email]">
+            <con:configuration>
+              <path>$[3].Email</path>
+              <content>info${DataGen#Nummer}@kalver.nl</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:breakPoints>
+        <con:testStepId>c891bcad-ee16-4eaf-bef4-d1b335eb7e64</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+      <con:breakPoints>
+        <con:testStepId>12f8a5bf-6a6a-4dd5-b549-5459027b2d4a</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="3eeda1a0-1c01-4e55-bea5-5e098374559e" name="OntvangendePartij">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="02c7bae8-d498-462e-a1fd-a9026427c919" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Ophalen alle OntvangendePartijen" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="Ophalen OntvangendePartij" id="81f9d415-a401-4610-a6bc-dfe8cfacf8e5">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="375c47ce-4bf2-4788-9764-12c57e8987b9" name="Ophalen OntvangendePartij" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/ontvangendepartij</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="dca090d6-3838-42f0-91bd-1b373ffd4dba" name="Aanlevering">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="b936dc2c-3304-4ddf-9ca9-0ce51bb22976" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Ophalen alle aanleveringen" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="Ophalen Aanleveringen" id="27e568d5-9bc7-4d6b-8b24-e31086ae22ad">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="8dcb9734-c446-494f-98ad-f22c5e3059dc" name="Ophalen Aanleveringen" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3002/api/aanlevering</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:testCase id="e391bbee-8385-4737-96e6-b706668e2c59" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Aanleveren" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="datagen" name="DataGen" id="d2942b2c-4dfa-4044-9285-a3464dc74625">
+        <con:settings/>
+        <con:config xsi:type="con:DataGeneratorStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:property type="Script">
+            <con:configuration>
+              <script>return java.util.UUID.randomUUID()</script>
+            </con:configuration>
+            <con:name>UUID</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+          <con:property type="Number">
+            <con:configuration>
+              <start>1000000000</start>
+              <end>9999999999</end>
+              <step/>
+              <pattern/>
+              <random>true</random>
+              <persist>false</persist>
+            </con:configuration>
+            <con:name>Hash</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Aanleveren" id="f2f1f558-0dcd-4194-933b-b3cc0b9660f8">
+        <con:settings/>
+        <con:config method="POST" xsi:type="con:HttpRequest" id="01b95af5-f277-4424-85e7-eb4ee6c61db2" name="Aanleveren" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/aanlevering</con:endpoint>
+          <con:request>{
+  "AanleverKenmerk": "${DataGen#UUID}",
+  "Hash": "${DataGen#Hash}",
+  "Aanleveraar": {22218496},
+  "Ontvanger": {1}
+}</con:request>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:breakPoints>
+        <con:testStepId>d2942b2c-4dfa-4044-9285-a3464dc74625</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="93b463b5-b950-457c-b33e-5d341b7e2ecc" name="Ophalen Status">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="3bb7c08e-d4b9-4a46-8d32-2570cfc493b6" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Ophalen Status" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="Ophalen status" id="74a7fff0-5664-4a94-974d-fb0797dfeb07">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="6564c805-2af6-49ca-887b-c572cc121d2b" name="Ophalen status" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/updatestatus</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="01044e61-5496-44d1-bce0-850bb7e5dcd3" name="Verwerker">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="6fe2e473-59ad-45a8-b1de-0cfce4cf8f3a" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Ophalen verwerker" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="Ophalen verwerker" id="dd4b820c-46a8-491b-910e-9c055aa3e38f">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="a01ec3ee-9302-472d-bced-c6e3b53755d8" name="Ophalen verwerker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/verwerker</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="eca50537-0a24-4331-bb9c-7a898d4d8f1c" name="Aanleveren controleren op kenmerk">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="ff9f7a97-8f25-4673-bfdd-db53425854fe" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Aanlevering ophalen op kenmerk" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="Ophalen op basis van kenmerk" id="80f6bb26-1df8-4f54-b512-7d94c598792e">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="99d77f4d-7e4b-42da-86bc-80bb9516edbe" name="Ophalen op basis van kenmerk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/queries/selectaanleveringenopkenmerk</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>aanleverkenmerk</con:name>
+              <con:value>b10c3ac0-e8bd-4dbb-b05c-792a236db358</con:value>
+              <con:style>QUERY</con:style>
+              <con:default>1</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="7bbb8950-1b71-477b-81a3-fe39e1390669" name="Aanleveren">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="ea439f58-3649-452e-97db-8ac97368f7c3" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Aanleveren" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="datagen" name="DataGen" id="fb2ba895-7a13-49db-b463-fbd717f6beed">
+        <con:settings/>
+        <con:config xsi:type="con:DataGeneratorStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:property type="Script">
+            <con:configuration>
+              <script>import java.text.SimpleDateFormat
+import java.util.Date
+
+java.text.DateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+// explicitly set timezone of input if needed
+df.setTimeZone(java.util.TimeZone.getTimeZone("Zulu"));
+df.format(new Date());</script>
+            </con:configuration>
+            <con:name>Timestamp</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+          <con:property type="Script">
+            <con:configuration>
+              <script>return java.util.UUID.randomUUID()</script>
+            </con:configuration>
+            <con:name>UUID</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+          <con:property type="Number">
+            <con:configuration>
+              <start>1000000000</start>
+              <end>9999999999</end>
+              <step/>
+              <pattern/>
+              <random>true</random>
+              <persist>false</persist>
+            </con:configuration>
+            <con:name>Hash</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Aanleveren" id="d70ca927-893b-4e8e-b286-7611ae11f00e">
+        <con:settings/>
+        <con:config method="POST" xsi:type="con:HttpRequest" id="ec4d5a55-55b1-47ed-8b89-e798b3e93be6" name="Aanleveren" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/aanleveren</con:endpoint>
+          <con:request>{
+  "Hash": "${DataGen#Hash}",
+  "AanleverKenmerk": "${DataGen#UUID}",
+  "OntvangerId": "1"
+}</con:request>
+          <con:assertion type="JsonPath Match" id="58f89be0-b2f9-4986-bf22-b272afe9d78d" name="Match content of [AanleverKenmerk]">
+            <con:configuration>
+              <path>$.AanleverKenmerk</path>
+              <content>${DataGen#UUID}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="d97705e2-70aa-4b14-bd71-c1da3ab78526" name="Match content of [Hash]">
+            <con:configuration>
+              <path>$.Hash</path>
+              <content>${DataGen#Hash}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Existence Match" id="362a3855-d363-4e02-a1c5-092863bbf49a" name="Check for existence of [transactionId]">
+            <con:configuration>
+              <path>$.transactionId</path>
+              <content>true</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="2ae671c8-b785-407e-ba6a-e55fe22ce6a4" name="Match content of [OntvangerId]">
+            <con:configuration>
+              <path>$.OntvangerId</path>
+              <content>1</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="delay" name="Wacht op verwerking" id="fe16ab3b-74d6-405d-a9e4-816f21c93e83">
+        <con:settings/>
+        <con:config>
+          <delay>${#Project#verwerkingsDelay}</delay>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Controle verwerking" id="d9adc719-a295-4e59-b438-eba6b703859b">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="500cfc66-a300-4c03-8ecd-2db2317ab5b2" name="Controle verwerking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/queries/selectaanleveringenopkenmerk</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>aanleverkenmerk</con:name>
+              <con:value>${DataGen#UUID}</con:value>
+              <con:style>QUERY</con:style>
+              <con:default>9cdab107-2ac3-402c-99cb-c2a8d9698948</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:breakPoints>
+        <con:testStepId>fb2ba895-7a13-49db-b463-fbd717f6beed</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+      <con:breakPoints>
+        <con:testStepId>fe16ab3b-74d6-405d-a9e4-816f21c93e83</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="22b25adb-f7f2-4be8-a2a5-c1f5dfccbcef" name="Aanleveraar">
+    <con:settings/>
+    <con:runType>PARALLELL</con:runType>
+    <con:testCase id="d504b6b5-b89b-4d92-937b-7d13c885842f" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Aanleveren 3001" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="datagen" name="DataGen" id="7072b7d9-2516-4b8c-a6ec-3ef88b3ff25c">
+        <con:settings/>
+        <con:config xsi:type="con:DataGeneratorStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:property type="Script">
+            <con:configuration>
+              <script>import java.text.SimpleDateFormat
+import java.util.Date
+
+java.text.DateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+// explicitly set timezone of input if needed
+df.setTimeZone(java.util.TimeZone.getTimeZone("Zulu"));
+df.format(new Date());</script>
+            </con:configuration>
+            <con:name>Timestamp</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+          <con:property type="Script">
+            <con:configuration>
+              <script>return java.util.UUID.randomUUID()</script>
+            </con:configuration>
+            <con:name>UUID</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+          <con:property type="Number">
+            <con:configuration>
+              <start>1000000000</start>
+              <end>9999999999</end>
+              <step/>
+              <pattern/>
+              <random>true</random>
+              <persist>false</persist>
+            </con:configuration>
+            <con:name>Hash</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Aanleveren" id="7a8fd407-ef84-4acd-abdf-fde43290fc3f">
+        <con:settings/>
+        <con:config method="POST" xsi:type="con:HttpRequest" id="ec4d5a55-55b1-47ed-8b89-e798b3e93be6" name="Aanleveren" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3001/api/aanleveren</con:endpoint>
+          <con:request>{
+   "Hash": "${DataGen#Hash}",
+   "AanleverKenmerk": "${DataGen#UUID}",
+   "OntvangerId": "1"
+}</con:request>
+          <con:assertion type="JsonPath Match" id="58f89be0-b2f9-4986-bf22-b272afe9d78d" name="Gegenereerde AanleverKenmerk">
+            <con:configuration>
+              <path>$.AanleverKenmerk</path>
+              <content>${DataGen#UUID}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="d97705e2-70aa-4b14-bd71-c1da3ab78526" name="Gegenereerde Hash">
+            <con:configuration>
+              <path>$.Hash</path>
+              <content>${DataGen#Hash}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Existence Match" id="362a3855-d363-4e02-a1c5-092863bbf49a" name="Check for existence of [transactionId]">
+            <con:configuration>
+              <path>$.transactionId</path>
+              <content>true</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="2ae671c8-b785-407e-ba6a-e55fe22ce6a4" name="OntvangerId = 2">
+            <con:configuration>
+              <path>$.OntvangerId</path>
+              <content>1</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="delay" name="Wacht op verwerking" id="ad20b939-a6fd-4c14-a490-e89c4fa810ed">
+        <con:settings/>
+        <con:config>
+          <delay>${#Project#verwerkingsDelay}</delay>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Controle verwerking" id="851960c2-dd0c-48ed-9ae1-f9b5a315a85c">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="500cfc66-a300-4c03-8ecd-2db2317ab5b2" name="Controle verwerking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3001/api/queries/selectaanleveringenopkenmerk</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="7ccb84bf-5c0a-4034-8715-bf10a8095465" name="AanleverKenmerk">
+            <con:configuration>
+              <path>$[0].AanleverKenmerk</path>
+              <content>${DataGen#UUID}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="b85409be-64b3-4b1a-94f8-8927e26dcc5a" name="Hash">
+            <con:configuration>
+              <path>$[0].Hash</path>
+              <content>${DataGen#Hash}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="2e9b914f-daa2-4819-9ef4-0803f0efe8f9" name="Status bericht = 100" disabled="true">
+            <con:configuration>
+              <path>$[0].status</path>
+              <content>100</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>aanleverkenmerk</con:name>
+              <con:value>${DataGen#UUID}</con:value>
+              <con:style>QUERY</con:style>
+              <con:default>9cdab107-2ac3-402c-99cb-c2a8d9698948</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:breakPoints>
+        <con:testStepId>fb2ba895-7a13-49db-b463-fbd717f6beed</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+      <con:breakPoints>
+        <con:testStepId>fe16ab3b-74d6-405d-a9e4-816f21c93e83</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+    </con:testCase>
+    <con:testCase id="5fa1daaf-0914-43b6-bada-4295a264e2a7" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Aanleveren 3003" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="datagen" name="DataGen" id="2e386e8d-6dc8-4215-a839-57331c275b50">
+        <con:settings/>
+        <con:config xsi:type="con:DataGeneratorStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:property type="Script">
+            <con:configuration>
+              <script>import java.text.SimpleDateFormat
+import java.util.Date
+
+java.text.DateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+// explicitly set timezone of input if needed
+df.setTimeZone(java.util.TimeZone.getTimeZone("Zulu"));
+df.format(new Date());</script>
+            </con:configuration>
+            <con:name>Timestamp</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+          <con:property type="Script">
+            <con:configuration>
+              <script>return java.util.UUID.randomUUID()</script>
+            </con:configuration>
+            <con:name>UUID</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+          <con:property type="Number">
+            <con:configuration>
+              <start>1000000000</start>
+              <end>9999999999</end>
+              <step/>
+              <pattern/>
+              <random>true</random>
+              <persist>false</persist>
+            </con:configuration>
+            <con:name>Hash</con:name>
+            <con:mode>STEP</con:mode>
+            <con:shared>false</con:shared>
+          </con:property>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Aanleveren" id="4a3b432e-e074-42a9-a6c3-19ada56be586">
+        <con:settings/>
+        <con:config method="POST" xsi:type="con:HttpRequest" id="ec4d5a55-55b1-47ed-8b89-e798b3e93be6" name="Aanleveren" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3003/api/aanleveren</con:endpoint>
+          <con:request>{
+   "Hash": "${DataGen#Hash}",
+   "AanleverKenmerk": "${DataGen#UUID}",
+   "OntvangerId": "1"
+}</con:request>
+          <con:assertion type="JsonPath Match" id="58f89be0-b2f9-4986-bf22-b272afe9d78d" name="Gegenereerde AanleverKenmerk">
+            <con:configuration>
+              <path>$.AanleverKenmerk</path>
+              <content>${DataGen#UUID}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="d97705e2-70aa-4b14-bd71-c1da3ab78526" name="Gegenereerde Hash">
+            <con:configuration>
+              <path>$.Hash</path>
+              <content>${DataGen#Hash}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Existence Match" id="362a3855-d363-4e02-a1c5-092863bbf49a" name="Check for existence of [transactionId]">
+            <con:configuration>
+              <path>$.transactionId</path>
+              <content>true</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="2ae671c8-b785-407e-ba6a-e55fe22ce6a4" name="OntvangerId = 2">
+            <con:configuration>
+              <path>$.OntvangerId</path>
+              <content>1</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="delay" name="Wacht op verwerking" id="029c8e76-d2bc-4556-a473-1c0ea4b6615f">
+        <con:settings/>
+        <con:config>
+          <delay>${#Project#verwerkingsDelay}</delay>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="Controle verwerking" id="354c778a-1680-45ac-b7a4-aff7dc25c102">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="500cfc66-a300-4c03-8ecd-2db2317ab5b2" name="Controle verwerking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3003/api/queries/selectaanleveringenopkenmerk</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="7ccb84bf-5c0a-4034-8715-bf10a8095465" name="AanleverKenmerk">
+            <con:configuration>
+              <path>$[0].AanleverKenmerk</path>
+              <content>${DataGen#UUID}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="b85409be-64b3-4b1a-94f8-8927e26dcc5a" name="Hash">
+            <con:configuration>
+              <path>$[0].Hash</path>
+              <content>${DataGen#Hash}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="2e9b914f-daa2-4819-9ef4-0803f0efe8f9" name="Status bericht = 100" disabled="true">
+            <con:configuration>
+              <path>$[0].status</path>
+              <content>100</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>aanleverkenmerk</con:name>
+              <con:value>${DataGen#UUID}</con:value>
+              <con:style>QUERY</con:style>
+              <con:default>9cdab107-2ac3-402c-99cb-c2a8d9698948</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:breakPoints>
+        <con:testStepId>fb2ba895-7a13-49db-b463-fbd717f6beed</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+      <con:breakPoints>
+        <con:testStepId>fe16ab3b-74d6-405d-a9e4-816f21c93e83</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="4ad981a0-8934-4d88-9077-abd09a67ad7f" name="Ontvanger">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="deb895bf-ea83-4c5b-9162-8143e90e1f4b" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Ophalen alle aanleveringen" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="Ophalen Aanleveringen" id="2f3cfd8f-9187-447d-9c5a-9d6012917610">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="8dcb9734-c446-494f-98ad-f22c5e3059dc" name="Ophalen Aanleveringen" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3002/api/aanlevering</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:testCase id="d91a5f55-4ce3-4c17-94a1-eacbbab25294" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="SetFinalStatus" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="SetFinalStatus" id="d561c813-bbb0-49b6-8fb5-9f1743eee52f">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="306d776d-a972-48ed-88bf-67a2979ede94" name="SetFinalStatus" postQueryString="false" mediaType="application/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3002/api/setfinalstatus</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="SetStatus" id="9f8933ba-c44f-499c-9c40-a5627d12cf9c">
+        <con:settings/>
+        <con:config method="PUT" xsi:type="con:HttpRequest" id="e0d3e2bb-5e3f-4e3e-8925-e4fb171cb71f" name="SetStatus" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3002/api/setfinalstatus</con:endpoint>
+          <con:request>{
+  "newStatus": 500,
+  "Kenmerk": "3866bcd6-5470-4203-986d-e805d7936db0",
+  "transactionId": "ae1353b615d282dd52c2fa003c891ee06d8642064ea473d0bdb8cbc92b8ec181",
+  "timestamp": "2018-04-07T10:04:45.210Z"
+}</con:request>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:testSuite id="7d66720f-a5c9-4299-854d-a5b441de61b3" name="Hyperpoort">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="aa2adf9f-8c2c-4b35-b43f-9d31df088523" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Ophalen verwerker" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="httprequest" name="Ophalen verwerker" id="1e0ed150-b97a-4463-9041-fb6983a1d0fb">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="a01ec3ee-9302-472d-bced-c6e3b53755d8" name="Ophalen verwerker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://10.0.169.30:3000/api/verwerker</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="97fd4dcb-7cf2-4d06-92a2-5a86c81412b3" name="Email verwerker = info@ebpi.nl">
+            <con:configuration>
+              <path>$[0].Email</path>
+              <content>info@ebpi.nl</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="87c48754-48c9-4f64-a00c-d03b747bbee4" name="ID verwerker = 1">
+            <con:configuration>
+              <path>$[0].ID</path>
+              <content>1</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:requirements/>
+  <con:properties/>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:reporting>
+    <con:xmlTemplates/>
+    <con:parameters/>
+  </con:reporting>
+  <con:sensitiveInformation/>
+</con:soapui-project>
